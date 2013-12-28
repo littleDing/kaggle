@@ -64,7 +64,7 @@ class LineLogger():
 		if self.cnt % self.interval ==0 :
 			logging.warn('%s %d %s'%(self.name,self.cnt,self.msg))
 	def end(self):
-		logging.warn(self.name+' ends')
+		logging.warn(self.name+' ends. totally %d lines processed'%(self.cnt))
 
 def wrap_line_logger(it,**kargs):
 	logger = LineLogger(**kargs)
