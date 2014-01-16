@@ -1,0 +1,12 @@
+20131104
+1. treat model in different ways:
+	1) doc => (wordid,feature,0-1 label), then when given a new doc, predict the probabilities of every word and find out the most likely ones
+	2) doc => (docid,feature, wordid label), then when given a new doc, predict directly which tag it is likely to be
+
+20131026
+1. tf-idf & pick top words
+2. tf-idf vector & knn
+3. k-means cluster
+4. lda to get topic, pick the most likely topic and it's top words
+5. make a word list, when given an passage, calculate a score for every word & sort them, the number of tags should also be learned
+
