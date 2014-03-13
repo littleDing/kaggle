@@ -62,11 +62,33 @@ def feature_002(feature):
 
 @decorators.disk_cached(utils.CACHE_DIR+'/id_mapping_001')
 def id_mapping_001(name,max_id):
+	''' 1-dimension id mapping '''
 	encoded = encoding(range(max_id))
 	stores = pd.DataFrame(encoded)
 	stores.columns = map(lambda i:'%s_%d'%(name,i),range(len(stores.columns)))
 	stores[name] = range(max_id)
 	return stores
+
+@decorators.disk_cached(utils.CACHE_DIR+'/id_mapping_002')
+def id_mapping_002(names,max_ids):
+	''' multi-dimension id mapping '''
+	max_id = reduce((lambda a,b:a*b),max_ids,1)
+	encoded = encoding(range(max_id))
+	ans = pd.DataFrame(encoded)
+	def make_columns(idx,cols=[]):
+		if idx>=len(names): return cols
+		if idx==0 : 
+			return make_columns(1,[ '%s_%d'%(names[0],i) for i in xrange(max_ids[0]) ])
+		ans = [ '%s-%s_%d'%(c,names[idx],i) for c in cols for i in xrange(max_ids[idx]) ]
+		return make_columns(idx+1,ans)
+	columns = make_columns(0)
+	ans.columns = columns
+	for i in range(len(names)):
+		base = reduce((lambda a,b:a*b),max_ids[i+1:],1)
+		rept = reduce((lambda a,b:a*b),max_ids[:i],1)
+		name = names[i]
+		ans[name] = [ j for r in xrange(rept) for j in xrange(max_ids[i]) for b in xrange(base) ]
+	return ans	
 
 def feature_003(feature):
 	'''
@@ -77,6 +99,14 @@ def feature_003(feature):
 	depts = id_mapping_001('Dept',100)
 	ans = pd.merge(IDS,stores)
 	ans = pd.merge(ans,depts)
+	return ans
+def feature_004(feature):
+	'''
+	@return id => (deptid_storeid)
+	'''
+	IDS = feature[['Store','Dept','Date','IsHoliday']]
+	f = id_mapping_002(['Store','Dept'],[50,100])
+	ans = pd.merge(IDS,f)
 	return ans
 
 def feature_100(feature,keys,values,periods):
@@ -120,7 +150,7 @@ def make_svd_feature_input(outprefix,base,versions=[]):
 			gls  = [ '%s:%s'%(k,v) for k,v in enumerate(line) if abs(v)>eps ]
 			sid  = ID['Store'][i]
 			did  = ID['Dept'][i]
-			s    = Y[i]
+			s    = Y[i]/100000
 			f = map(str,[s,len(gls),1,1]+gls+['%s:1'%(sid),'%s:1'%(did)])
 			for k in range(W[i]):
 				yield f
@@ -132,8 +162,11 @@ def make_svd_feature_input(outprefix,base,versions=[]):
 				yield line
 	id_generator()
 
+def run_make_svd():
+	make_svd_feature_input('../temp/svdfeature','train.csv',[('001',),('002',)])
+	make_svd_feature_input('../temp/svdfeature_test','test.csv',[('001',),('002',)])
 
 
 if __name__ == '__main__':
-	pass
+	run_make_svd()
 
