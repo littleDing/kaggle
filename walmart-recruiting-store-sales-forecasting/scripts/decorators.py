@@ -26,7 +26,7 @@ def disk_cached(prefix):
 				logging.info('pickle loaded : %s'%(path))
 			else :
 				logging.info('pickle not exists : %s'%(path))
-				value = func(*args)
+				value = func(*args,**karg)
 				with open(path,'w') as fout:
 					cPickle.dump(value,fout)
 				logging.info('pickle written : %s'%(path))
