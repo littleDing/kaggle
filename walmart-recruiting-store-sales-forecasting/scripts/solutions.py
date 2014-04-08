@@ -12,13 +12,14 @@ class Predictor():
 	'''
 	build a predictor for every single id in ids
 	'''
-	def __init__(self,modelFactory,supportW=True,supportSparse=True,ids=None,negetiveY=None):
+	def __init__(self,modelFactory,supportW=True,supportSparse=True,ids=None,negetiveY=None,tagging=None):
 		self.ids = ids
 		self.models = {}
 		self.modelFactory = modelFactory
 		self.supportW = supportW
 		self.supportSparse = supportSparse
 		self.negetiveY = negetiveY
+		self.tagging = tagging
 	def split(self,ID):
 		index = collections.defaultdict(list)
 		for i in range(len(ID)):
@@ -26,8 +27,8 @@ class Predictor():
 			index[key].append(i)
 		return index
 	def fit(self,X,Y,W,index):
-		def fit_instances(idx):
-			model = self.modelFactory()
+		def fit_instances(idx,tag):	
+			model = self.modelFactory(tag=tag)
 			if not self.supportW:
 				idx = [ i for i in idx for j in range(int(W[i])) ]
 			x,y,w = X[idx],Y[idx],W[idx]
@@ -46,7 +47,7 @@ class Predictor():
 				idx = filter(lambda i:Y[i]>0,idx)
 			if len(idx) < 5 :
 				continue
-			self.models[key] = fit_instances(idx)
+			self.models[key] = fit_instances(idx,key)
 			if kid % log_step==0:
 				logging.info('model %s fit with #%d ins'%(key,len(idx)))
 		return self
@@ -67,6 +68,54 @@ class Predictor():
 			if kid % log_step ==0 :
 				logging.info('#%d of id %s predited'%(len(idx),key))
 		return Y
+
+class RGF():
+	def __init__(self,reg_L2=1,tag='default',params='',lazy=True):
+		self.tag = tag
+		self.prefix = os.path.join(utils.TEMP_DIR,'rgf/',self.tag)
+		self.params = 'reg_L2=%s'%(reg_L2)+params
+		self.lazy = lazy
+	def prepare_env(self,prefix,X,Y=None,W=None):
+		'''
+		write x,y,w to disk with prefix 
+		'''
+		def write(data,path):
+			if data != None :
+				df = pd.DataFrame(data)
+				df.to_csv(path,sep=' ',header=False,index=False)
+		write(X,prefix+'.x')
+		write(Y,prefix+'.y')
+		write(W,prefix+'.w')
+	def find_model(self):
+		path = None
+		for i in range(100):
+			fack = self.prefix+'.model-%02d'%i
+			if os.path.exists(fack):
+				path = fack
+		return path
+	def fit(self,X,Y,W):
+		if self.lazy and self.find_model() :
+			return self
+		prefix = self.prefix + '.train'
+		self.prepare_env(prefix,X,Y,W)
+		params = '%s,train_x_fn=%s,test_x_fn=%s,train_y_fn=%s,test_y_fn=%s,train_w_fn=%s'%(self.params,prefix+'.x',prefix+'.x',prefix+'.y',prefix+'.y',prefix+'.w')
+		params = params + ',model_fn_prefix=%s.model'%(self.prefix)
+		cmd = '%s train_test %s'%(utils.CONFIGS['rgf'],params)
+		ret = os.popen(cmd).read()
+		#logging.info(ret)
+		return self
+	def predict(self,X):
+		prefix = self.prefix + '.test'
+		self.prepare_env(prefix,X)
+		model  = self.find_model()
+		params = 'model_fn=%s,test_x_fn=%s,prediction_fn=%s'%(model,prefix+'.x',prefix+'.pred')
+		cmd = '%s predict %s'%(utils.CONFIGS['rgf'],params)
+		try :
+			ret = os.popen(cmd).read()
+			yy = pd.read_csv(prefix + '.pred',header=None)[0]
+		except Exception,e:
+			logging.info(ret)
+		return yy
 
 def solution(train_path,test_path,
 		modelFactory=sklearn.linear_model.LinearRegression,
@@ -149,25 +198,28 @@ solutions = {
 				'Predictor',
 				{
 					'ids' : ['Dept','Store'],
-					'modelFactory' : (lambda : sklearn.ensemble.GradientBoostingRegressor(loss='lad',n_estimators=50,max_depth=5)),
-					'supportW' : False,
+					#'modelFactory' : (lambda tag: sklearn.ensemble.GradientBoostingRegressor(loss='lad',n_estimators=50,max_depth=5)),
+					'modelFactory' : (lambda tag:RGF(tag=tag,lazy=False)),
+					'supportW' : True,
 					'supportSparse' : False,
 					'negetiveY' : 'ignore'
 				}
 		),
-		'modelNeedID' : ['Dept','Store','IsHoliday'],
+		'modelNeedID' : ['Dept','Store'],
 		'feature' : [
-				('001_fna','002',{'n_estimators':800}),
+				#('001_fna','002',{'n_estimators':800}),
+				('001f',),
 				('012',),
 				('009',),
 		],
 		'featureFactory' : 'make_sparse_instance',
 
-		'baseModelFactory' : (
+		'baseModelFactory' : None
+		,'123':(
 				'Predictor',
 				{
 					'ids' : ['Dept','Store'],
-					'modelFactory' : (lambda : sklearn.ensemble.GradientBoostingRegressor(loss='lad',n_estimators=100,max_depth=5)),
+					'modelFactory' : (lambda tag: sklearn.ensemble.GradientBoostingRegressor(loss='lad',n_estimators=100,max_depth=5)),
 					'supportW' : False,
 					'supportSparse' : False,
 					'negetiveY' : 'ignore'

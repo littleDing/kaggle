@@ -21,6 +21,8 @@ def load_dir(suffix):
 CACHE_DIR = load_dir('caches')
 DATA_DIR = load_dir('data')
 ANS_DIR = load_dir('answers')
+TEMP_DIR = load_dir('temp')
+load_dir('temp/rgf')
 
 def wmae(y,yy,w):
 	return sum(abs(yy-y)*w)/sum(w)
