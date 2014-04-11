@@ -1,4 +1,5 @@
 from optparse import OptionParser
+from multiprocessing import Pool
 import random,logging,traceback,datetime,os,collections
 import sklearn
 import sklearn.linear_model
@@ -12,7 +13,7 @@ class Predictor():
 	'''
 	build a predictor for every single id in ids
 	'''
-	def __init__(self,modelFactory,supportW=True,supportSparse=True,ids=None,negetiveY=None,tagging=None):
+	def __init__(self,modelFactory,supportW=True,supportSparse=True,ids=None,negetiveY=None,tagging=None,num_core=1):
 		self.ids = ids
 		self.models = {}
 		self.modelFactory = modelFactory
@@ -20,6 +21,7 @@ class Predictor():
 		self.supportSparse = supportSparse
 		self.negetiveY = negetiveY
 		self.tagging = tagging
+		self.num_core = num_core
 	def split(self,ID):
 		index = collections.defaultdict(list)
 		for i in range(len(ID)):
@@ -41,15 +43,26 @@ class Predictor():
 			return model
 		self.models = {}
 		log_step = len(index)/100+1
-		for kid,key in enumerate(sorted(index.keys())):
+		def handle(arg):
+			kid,key = arg
 			idx = index[key]
 			if self.negetiveY == 'ignore' :
 				idx = filter(lambda i:Y[i]>0,idx)
-			if len(idx) < 5 :
-				continue
-			self.models[key] = fit_instances(idx,key)
+			model = None
+			if len(idx) >= 5 :
+				model = fit_instances(idx,key)
 			if kid % log_step==0:
 				logging.info('model %s fit with #%d ins'%(key,len(idx)))
+			return key,model
+		if self.num_core >1:
+			pool = Pool(self.num_core)
+			models = pool.map(handle,enumerate(sorted(index.keys())))
+			self.models = { key:model for key,model in models if model }
+		else :
+			for kid,key in enumerate(sorted(index.keys())):
+				key,model = handle((kid,key))
+				if model :
+					self.models[key] = model
 		return self
 	def predict(self,X,index):
 		Y = [0]*X.shape[0]
