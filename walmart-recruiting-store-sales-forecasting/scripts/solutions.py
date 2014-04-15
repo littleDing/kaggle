@@ -134,13 +134,13 @@ def solution(train_path,test_path,
 		modelFactory=sklearn.linear_model.LinearRegression,
 		modelNeedID=None,
 		featureFactory=instances.make_instance,
-		feature=[],
+		feature=[],nonlinears=[],
 		baseModelFactory=None,baseFeatureFactory=None,baseFeature=None,baseModelNeedID=None,
 		version='current',**karg):
 	
 	def try_get_predict(model,modelNeedID,featureFactory,feature):
 		if modelNeedID :
-			test_x,test_y,test_w,test_ID,test_IDString,test_index = featureFactory(test_path,feature,modelNeedID)
+			test_x,test_y,test_w,test_ID,test_IDString,test_index = featureFactory(test_path,feature,modelNeedID,nonlinears)
 		else :
 			test_x,test_y,test_w,test_ID,test_IDString = featureFactory(test_path,feature)[:5]
 		logging.info('testing data loaded!')
@@ -152,7 +152,7 @@ def solution(train_path,test_path,
 
 	def try_get_model(modelFactory,modelNeedID,featureFactory,feature):
 		if modelNeedID :
-			train_x,train_y,train_w,train_ID,train_IDString,train_index = featureFactory(train_path,feature,modelNeedID)
+			train_x,train_y,train_w,train_ID,train_IDString,train_index = featureFactory(train_path,feature,modelNeedID,nonlinears)
 		else :
 			train_x,train_y,train_w,train_ID,train_IDString = featureFactory(train_path,feature)[:5]
 		logging.info('training data loaded!')
@@ -211,9 +211,9 @@ solutions = {
 				'Predictor',
 				{
 					'ids' : ['Dept','Store'],
-					#'modelFactory' : (lambda tag: sklearn.ensemble.GradientBoostingRegressor(loss='lad',n_estimators=50,max_depth=5)),
-					'modelFactory' : (lambda tag:RGF(tag=tag,lazy=False)),
-					'supportW' : True,
+					'modelFactory' : (lambda tag: sklearn.ensemble.GradientBoostingRegressor(loss='lad',n_estimators=50,max_depth=5)),
+					#'modelFactory' : (lambda tag:RGF(tag=tag,lazy=False)),
+					'supportW' : False,
 					'supportSparse' : False,
 					'negetiveY' : 'ignore'
 				}
@@ -225,6 +225,7 @@ solutions = {
 				('012',),
 				('009',),
 		],
+		'nonlinears' : ['001','002','004'],
 		'featureFactory' : 'make_sparse_instance',
 
 		'baseModelFactory' : None

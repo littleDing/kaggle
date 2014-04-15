@@ -429,8 +429,17 @@ def make_instance(base,versions=[]):
 	IDString = map(lambda x:'_'.join(map(str,x)),np.array(ID))
 	return X,Y,W,ID,IDString
 
+def nonlinear_001(x):
+	return x**2
+def nonlinear_002(x):
+	return x**3
+def nonlinear_003(x):
+	return np.exp(x)
+def nonlinear_004(x):
+	return np.log(x-x.min()+1)
+
 @decorators.disk_cached(utils.CACHE_DIR+'/sparse_features')
-def make_sparse_instance(base,versions=[],groupby=None):
+def make_sparse_instance(base,versions=[],groupby=None,nonlinears=[]):
 	'''
 	@param[in] base "source file name in DATA_DIR"
 	@param[in] versions [ (feature_versions,feature_args) ]
@@ -456,6 +465,13 @@ def make_sparse_instance(base,versions=[],groupby=None):
 			if sparse :
 				sparseColumns.update(f[2])
 			f = f[0]
+		else :
+			for k in f:
+				if k in IDNames : continue
+				base_x = f[k]
+				for func in nonlinears :
+					key = '%s_nl_%s'%(k,func)
+					f[key] = globals()['nonlinear_%s'%(func)](base_x)
 		X = pd.merge(X,f,on=['Store','Dept','Date','IsHoliday'])
 
 	# basic infos
