@@ -225,7 +225,7 @@ solutions = {
 				('001f',),
 				('012',),
 				('009',),
-				('015','Store','Weekly_Sales'),
+				('015','Store',['Weekly_Sales']),
 		],
 		'nonlinears' : ['001','002','004'],
 		'featureFactory' : 'make_sparse_instance',

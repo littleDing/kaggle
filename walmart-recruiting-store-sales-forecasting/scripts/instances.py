@@ -412,19 +412,19 @@ def feature_015(feature,groupby,target):
 	'''
 	@return id=> median,std of groupby columns on target values
 	'''
+	base 	= basic_features('train.csv')
 	IDS 	= feature[['Store','Dept','Date','IsHoliday']]
-	medians = feature.groupby(groupby).median()[target]
+	medians = base.groupby(groupby).median()[target]
 	medians[groupby] = medians.index
 	suffix  = ('','_mean')
 	ans = pd.merge(IDS,medians,suffixes=suffix,on=groupby)
 
-	stds = feature.groupby(groupby).std()[target]
+	stds = base.groupby(groupby).std()[target]
 	stds[groupby] = stds.index
 	suffix  = ('_mean.%s'%(groupby),'_std.%s'%(groupby))
 	ans = pd.merge(ans,stds,suffixes=suffix,on=groupby)
 
 	return ans
-
 
 def make_instance(base,versions=[]):
 	'''
