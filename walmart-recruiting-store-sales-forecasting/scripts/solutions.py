@@ -76,8 +76,11 @@ class Predictor():
 			if not self.supportSparse:
 				x = x.toarray()
 			y = model.predict(x)
-			for i in xrange(len(idx)):
-				Y[idx[i]] = y[i]
+			try :
+				for i in xrange(len(idx)):
+					Y[idx[i]] = y[i]
+			except :
+				logging.error((kid,key,y))
 			if kid % log_step ==0 :
 				logging.info('#%d of id %s predited'%(len(idx),key))
 		return Y
@@ -211,19 +214,18 @@ solutions = {
 				'Predictor',
 				{
 					'ids' : ['Dept','Store'],
-					'modelFactory' : (lambda tag: sklearn.ensemble.GradientBoostingRegressor(loss='lad',n_estimators=50,max_depth=5)),
-					#'modelFactory' : (lambda tag:RGF(tag=tag,lazy=False)),
+					'modelFactory' : (lambda tag:RGF(tag=tag,lazy=False,params='min_pop=5,algorithm=RGF_Sib')),
 					'supportW' : False,
 					'supportSparse' : False,
 					'negetiveY' : 'ignore'
 				}
 		),
-		'modelNeedID' : ['Dept','Store'],
+		'modelNeedID' : ['Dept'],
 		'feature' : [
-				#('001_fna','002',{'n_estimators':800}),
 				('001f',),
 				('012',),
 				('009',),
+				('015','Store','Weekly_Sales'),
 		],
 		'nonlinears' : ['001','002','004'],
 		'featureFactory' : 'make_sparse_instance',

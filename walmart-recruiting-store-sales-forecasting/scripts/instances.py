@@ -408,6 +408,23 @@ def feature_009(feature):
 	mapping 	= date_mapping_003('2010-01-01','2014-12-31')
 	return pd.merge(IDS,mapping)
 
+def feature_015(feature,groupby,target):
+	'''
+	@return id=> median,std of groupby columns on target values
+	'''
+	IDS 	= feature[['Store','Dept','Date','IsHoliday']]
+	medians = feature.groupby(groupby).median()[target]
+	medians[groupby] = medians.index
+	suffix  = ('','_mean')
+	ans = pd.merge(IDS,medians,suffixes=suffix,on=groupby)
+
+	stds = feature.groupby(groupby).std()[target]
+	stds[groupby] = stds.index
+	suffix  = ('_mean.%s'%(groupby),'_std.%s'%(groupby))
+	ans = pd.merge(ans,stds,suffixes=suffix,on=groupby)
+
+	return ans
+
 
 def make_instance(base,versions=[]):
 	'''
