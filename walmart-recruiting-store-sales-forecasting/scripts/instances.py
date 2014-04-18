@@ -426,6 +426,25 @@ def feature_015(feature,groupby,target):
 
 	return ans
 
+def feature_016(feature):
+	'''
+	@return id => (date in festival 0=>NotHoliday,1=>Super Bowl,2=>Labor Day,3=>Thanksgiving,4=>Christmas)
+	'''
+	IDS 	= feature[['Store','Dept','Date','IsHoliday']]
+	def match_festival(d):
+		if d in [ '2010-02-12','2011-02-11','2012-02-10','2013-02-08' ]  : #12-Feb-10, 11-Feb-11, 10-Feb-12, 8-Feb-13
+			return 1
+		elif d in [ '2010-09-10','2011-09-09','2012-09-07','2013-09-06' ]: #10-Sep-10, 9-Sep-11, 7-Sep-12, 6-Sep-13
+			return 2
+		elif d in [ '2010-11-26','2011-11-25','2012-11-23','2013-11-29'] : #26-Nov-10, 25-Nov-11, 23-Nov-12, 29-Nov-13
+			return 3
+		elif d in [ '2010-12-31','2011-12-30','2012-12-30','2013-12-27'] : #31-Dec-10, 30-Dec-11, 28-Dec-12, 27-Dec-13
+			return 4
+		else : 
+			return 0
+	IDS['festival'] = IDS['Date'].map(match_festival)
+	return IDS
+
 def make_instance(base,versions=[]):
 	'''
 	@param[in] base "source file name in DATA_DIR"

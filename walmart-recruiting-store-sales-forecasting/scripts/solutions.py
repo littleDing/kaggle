@@ -226,6 +226,7 @@ solutions = {
 				('012',),
 				('009',),
 				('015','Store',['Weekly_Sales']),
+				('016',),
 		],
 		'nonlinears' : ['001','002','004'],
 		'featureFactory' : 'make_sparse_instance',
