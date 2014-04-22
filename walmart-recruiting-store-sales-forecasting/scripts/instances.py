@@ -405,7 +405,7 @@ def feature_009(feature):
 	@return id => (week,month,season,year) since 2010-01-01 
 	'''
 	IDS 	= feature[['Store','Dept','Date','IsHoliday']]
-	mapping 	= date_mapping_003('2010-01-01','2014-12-31')
+	mapping = date_mapping_003('2010-01-01','2014-12-31')
 	return pd.merge(IDS,mapping)
 
 def feature_015(feature,groupby,target):
@@ -450,7 +450,7 @@ def date_mapping_017(f,t,groupby,window,base,a,b):
 	'''
 	shifting window kernel density esitimation based on groupbyid
 	density<id,date> = sum_{ | (d - date)%base | <= window} ( a+(b-a)*(|(d-date)/window|%base)*sales_on_d  )
-	date unit is estimated using in week
+	date unit is estimated using in day
 	@return id,date => (kernel density)
 	'''
 	a,b = float(a),float(b)
@@ -481,8 +481,51 @@ def feature_017(feature,groupby,window,base,a,b):
 	'''@return id => (kernel density)'''
 	IDS 	= feature[['Store','Dept','Date','IsHoliday']]
 	mapping = date_mapping_017('2010-01-01','2013-12-31',groupby,window,base,a,b)
-	ans 	= pd.merge(IDS,mapping)
-	ans.rename(columns={'Weekly_Sales':'Kernel%s'%r('_'.join(map(str,[groupby,window,base,a,b])))},inplace=True)
+	ans 	= pd.merge(IDS,mapping,how='left')
+	ans.rename(columns={'Weekly_Sales':'Kernel%s'%('_'.join(map(str,[groupby,window,base,a,b])))},inplace=True)
+	return ans
+
+@decorators.disk_cached(utils.CACHE_DIR+'/date_mapping_018')
+def date_mapping_018(f,t,groupby,cycle,c,kernel_base):
+	'''
+	exponential backoff kernel density esitimation based on groupbyid
+	density<id,date> = sum( (kernel_base**(c+|(d-date)|%base))*sales_on_d  )
+	date unit is estimated using in day
+	@return id,date => (kernel density)
+	'''
+	keys 	= groupby + ['Date','Weekly_Sales']
+	dates 	= date_mapping_003('2010-01-01','2013-12-31')['Date']
+	deltas 	= pd.Series([ i for i in range(len(dates)) ])
+	original_date = pd.DataFrame({'Date':dates,'delta':deltas})
+	basic 	= basic_features('train.csv')[groupby+['Date','Weekly_Sales']]
+	buffs 	= []
+	for key,value in basic.groupby(groupby):
+		value = pd.merge(value,original_date)
+		density = []
+		for d in range(cycle):
+			dis = abs(value['delta']-d)%cycle
+			w = kernel_base**(dis+c)
+			d = (w*value['Weekly_Sales']).sum()/w.sum()
+			density.append(d)
+		columns = { 'Weekly_Sales':density,'delta':range(cycle) }
+		if len(groupby)==1 :
+			columns[groupby[0]] = key
+		else :
+			for k in range(len(groupby)):
+				columns[groupby[k]] = key[k]
+		buffs.append(pd.DataFrame(columns))
+	buff = pd.concat(buffs)
+	deltas 	= pd.Series([ i%cycle for i in range(len(dates)) ])
+	original_date = pd.DataFrame({'Date':dates,'delta':deltas})
+	date_recovered = pd.merge(buff,original_date)
+	return date_recovered[keys]
+
+def feature_018(feature,groupby,cycle,c,kernel_base):
+	'''@return id => (kernel density)'''
+	IDS 	= feature[['Store','Dept','Date','IsHoliday']]
+	mapping = date_mapping_017('2010-01-01','2013-12-31',groupby,window,base,a,b)
+	ans 	= pd.merge(IDS,mapping,how='left')
+	ans.rename(columns={'Weekly_Sales':'Kernel18%s'%('_'.join(map(str,[groupby,window,base,a,b])))},inplace=True)
 	return ans
 
 def make_instance(base,versions=[]):
