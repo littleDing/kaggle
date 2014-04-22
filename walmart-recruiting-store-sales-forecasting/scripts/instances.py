@@ -481,7 +481,9 @@ def feature_017(feature,groupby,window,base,a,b):
 	'''@return id => (kernel density)'''
 	IDS 	= feature[['Store','Dept','Date','IsHoliday']]
 	mapping = date_mapping_017('2010-01-01','2013-12-31',groupby,window,base,a,b)
-	return pd.merge(IDS,mapping)
+	ans 	= pd.merge(IDS,mapping)
+	ans.rename(columns={'Weekly_Sales':'Kernel%s'%r('_'.join(map(str,[groupby,window,base,a,b])))},inplace=True)
+	return ans
 
 def make_instance(base,versions=[]):
 	'''

@@ -11,6 +11,22 @@ def write_to_file(path,seperator=' '):
 		return _func
 	return wrapper
 
+def try_get_path(path):
+	if len(path) <= 220 :
+		return path
+	db_path = 'path_mapping.cPickle'
+	if os.path.exists(db_path) :
+		with open(db_path) as fin :
+			db = cPickle.load(fin)
+	else :
+		db = {}
+	dirname,filename = os.path.split(path)
+	if filename not in db :
+		db[filename] = str(len(db))+'.cPickle'
+		with open(db_path,'w') as fout :
+			cPickle.dump(db,fout) 
+	filename =  db[filename]
+	return os.path.join(dirname,filename)
 
 def disk_cached(prefix):
 	def wrapper(func):
@@ -19,6 +35,7 @@ def disk_cached(prefix):
 			name = '%s-%s'%(args,karg)
 			name = name.replace('/','__')
 			path = '%s%s.cPickle'%(prefix,name)
+			path = try_get_path(path)
 			if os.path.exists(path):
 				logging.info('pickle exists : %s'%(path))
 				with open(path) as fin:

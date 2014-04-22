@@ -224,8 +224,8 @@ solutions = {
 				'Predictor',
 				{
 					'ids' : ['Dept','Store'],
-					'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=False,params='min_pop=5,algorithm=RGF_Sib')),
-					'supportW' : False,
+					'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=False,params='max_leaf_forest=2000,min_pop=5,algorithm=RGF_Sib')),
+					'supportW' : True,
 					'supportSparse' : False,
 					'negetiveY' : 'ignore'
 				}
@@ -237,8 +237,9 @@ solutions = {
 				('009',),
 				('015','Store',['Weekly_Sales']),
 				('016',),
+				('017',['Store','Dept'],7,365,1,2),
 		],
-		'nonlinears' : ['001','002','004'],
+		'nonlinears' : [],#['001','002','004'],
 		'featureFactory' : 'make_sparse_instance',
 
 		'baseModelFactory' : None
