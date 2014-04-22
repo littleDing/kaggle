@@ -523,7 +523,7 @@ def date_mapping_018(f,t,groupby,cycle,c,kernel_base):
 def feature_018(feature,groupby,cycle,c,kernel_base):
 	'''@return id => (kernel density)'''
 	IDS 	= feature[['Store','Dept','Date','IsHoliday']]
-	mapping = date_mapping_017('2010-01-01','2013-12-31',groupby,window,base,a,b)
+	mapping = date_mapping_018('2010-01-01','2013-12-31',groupby,cycle,c,kernel_base)
 	ans 	= pd.merge(IDS,mapping,how='left')
 	ans.rename(columns={'Weekly_Sales':'Kernel18%s'%('_'.join(map(str,[groupby,window,base,a,b])))},inplace=True)
 	return ans

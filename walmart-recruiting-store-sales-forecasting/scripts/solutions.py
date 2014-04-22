@@ -97,11 +97,12 @@ class Predictor():
 		return Y
 
 class RGF():
-	def __init__(self,reg_L2=1,tag='default',params='',lazy=True):
+	def __init__(self,reg_L2=1,tag='default',params='',lazy=True,sparse=False):
 		self.tag = tag
 		self.prefix = os.path.join(utils.TEMP_DIR,'rgf/',self.tag)
 		self.params = 'reg_L2=%s'%(reg_L2)+params
 		self.lazy = lazy
+		self.sparse = sparse
 	def prepare_env(self,prefix,X,Y=None,W=None):
 		'''
 		write x,y,w to disk with prefix 
@@ -110,6 +111,8 @@ class RGF():
 			if data != None :
 				df = pd.DataFrame(data)
 				df.to_csv(path,sep=' ',header=False,index=False)
+		if self.sparse :
+			X = X.toarray()
 		write(X,prefix+'.x')
 		write(Y,prefix+'.y')
 		write(W,prefix+'.w')
@@ -216,7 +219,7 @@ solutions = {
 		],
 		'featureFactory' : 'make_sparse_instance'
 	},
-	'current' : {
+	'20140423' : {
 		'train_path' : 'train.csv',
 		'test_path' : 'test.csv',
 
@@ -260,6 +263,29 @@ solutions = {
 			('012',),
 			('009',),
 		],
+	},
+	'current' : {
+		'train_path' : 'train.csv',
+		'test_path' : 'test.csv',
+
+		'modelFactory' : (
+				'RGF',
+				{
+					'lazy' : False,
+					'params' : 'max_leaf_forest=2000,min_pop=5,algorithm=RGF_Sib',
+					'sparse' : True,
+				}
+		),
+		'feature' : [
+				('001f',),
+				('012',),
+				('009',),
+				('015','Store',['Weekly_Sales']),
+				('016',),
+				('017',['Store','Dept'],7,365,1,2),
+		],
+		'nonlinears' : [],
+		'featureFactory' : 'make_sparse_instance',
 	},
 }
 
