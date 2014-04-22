@@ -445,6 +445,44 @@ def feature_016(feature):
 	IDS['festival'] = IDS['Date'].map(match_festival)
 	return IDS
 
+@decorators.disk_cached(utils.CACHE_DIR+'/date_mapping_017')
+def date_mapping_017(f,t,groupby,window,base,a,b):
+	'''
+	shifting window kernel density esitimation based on groupbyid
+	density<id,date> = sum_{ | (d - date)%base | <= window} ( a+(b-a)*(|(d-date)/window|%base)*sales_on_d  )
+	date unit is estimated using in week
+	@return id,date => (kernel density)
+	'''
+	a,b = float(a),float(b)
+	keys 	= groupby + ['Date','Weekly_Sales']
+	dates 	= date_mapping_003('2010-01-01','2013-12-31')['Date']
+	deltas 	= pd.Series([ i%base for i in range(len(dates)) ])
+	base 	= basic_features('train.csv')[groupby+['Date','Weekly_Sales']]
+	base['w'] = b
+	def make_shifted(d):
+		shifted = pd.DataFrame({'Date':dates,'delta': deltas.shift(d) })
+		sales 	= pd.merge(base,shifted)
+		w = a + (b-a)*(1-abs(float(d))/window)
+		sales['w'] = w
+		sales['Weekly_Sales'] = sales['Weekly_Sales']*w
+		return sales
+	buffs 	= []
+	for d in range(-window,window+1):
+		shifted = make_shifted(d)
+		buffs.append(shifted)
+	buff = pd.concat(buffs)
+	grouped = buff.groupby(groupby+['delta']).sum().reset_index() ## id,delta => sum_sales,sum_w
+	original_date  = pd.DataFrame({'Date':dates,'delta': deltas })
+	date_recovered = pd.merge(grouped,original_date)
+	date_recovered['Weekly_Sales'] = date_recovered['Weekly_Sales']/date_recovered['w']
+	return date_recovered[keys]
+
+def feature_017(feature,groupby,window,base,a,b):
+	'''@return id => (kernel density)'''
+	IDS 	= feature[['Store','Dept','Date','IsHoliday']]
+	mapping = date_mapping_017('2010-01-01','2013-12-31',groupby,window,base,a,b)
+	return pd.merge(IDS,mapping)
+
 def make_instance(base,versions=[]):
 	'''
 	@param[in] base "source file name in DATA_DIR"

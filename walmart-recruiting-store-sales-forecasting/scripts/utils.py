@@ -24,7 +24,7 @@ ANS_DIR = load_dir('answers')
 TEMP_DIR = load_dir('temp')
 load_dir('temp/rgf')
 
-def wmae(y,yy,w):
+def wmae(y,yy,w=[1]):
 	return sum(abs(yy-y)*w)/sum(w)
 
 def get_date(s):

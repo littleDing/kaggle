@@ -30,16 +30,27 @@ class Predictor():
 		return index
 	def fit(self,X,Y,W,index):
 		def fit_instances(idx,tag):	
-			model = self.modelFactory(tag=tag)
 			if not self.supportW:
 				idx = [ i for i in idx for j in range(int(W[i])) ]
 			x,y,w = X[idx],Y[idx],W[idx]
+			std = y.std()
+			model = self.modelFactory(tag=tag,std=std)
 			if not self.supportSparse:
 				x = x.toarray()
 			if self.supportW :
 				model.fit(x,y,w)
+				try:
+					yy = model.predict(x) 
+					logging.info('wmae on tag %s with %s instances = %s'%(tag,len(yy),utils.wmae(y,yy,w)))
+				except :
+					pass
 			else :
 				model.fit(x,y)
+				try:
+					yy = model.predict(x) 
+					logging.info('wmae on tag %s with %s instances = %s'%(tag,len(yy),utils.wmae(y,yy)))
+				except :
+					pass
 			return model
 		self.models = {}
 		log_step = len(index)/100+1
@@ -118,7 +129,6 @@ class RGF():
 		params = params + ',model_fn_prefix=%s.model'%(self.prefix)
 		cmd = '%s train_test %s'%(utils.CONFIGS['rgf'],params)
 		ret = os.popen(cmd).read()
-		#logging.info(ret)
 		return self
 	def predict(self,X):
 		prefix = self.prefix + '.test'
@@ -214,7 +224,7 @@ solutions = {
 				'Predictor',
 				{
 					'ids' : ['Dept','Store'],
-					'modelFactory' : (lambda tag:RGF(tag=tag,lazy=False,params='min_pop=5,algorithm=RGF_Sib')),
+					'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=False,params='min_pop=5,algorithm=RGF_Sib')),
 					'supportW' : False,
 					'supportSparse' : False,
 					'negetiveY' : 'ignore'
@@ -236,7 +246,7 @@ solutions = {
 				'Predictor',
 				{
 					'ids' : ['Dept','Store'],
-					'modelFactory' : (lambda tag: sklearn.ensemble.GradientBoostingRegressor(loss='lad',n_estimators=100,max_depth=5)),
+					'modelFactory' : (lambda tag,std: sklearn.ensemble.GradientBoostingRegressor(loss='lad',n_estimators=100,max_depth=5)),
 					'supportW' : False,
 					'supportSparse' : False,
 					'negetiveY' : 'ignore'
