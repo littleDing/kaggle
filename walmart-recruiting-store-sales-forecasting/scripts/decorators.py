@@ -12,7 +12,8 @@ def write_to_file(path,seperator=' '):
 	return wrapper
 
 def try_get_path(path):
-	if len(path) <= 220 :
+	dirname,filename = os.path.split(path)
+	if len(filename) <= 220 :
 		return path
 	db_path = 'path_mapping.cPickle'
 	if os.path.exists(db_path) :
@@ -20,7 +21,6 @@ def try_get_path(path):
 			db = cPickle.load(fin)
 	else :
 		db = {}
-	dirname,filename = os.path.split(path)
 	if filename not in db :
 		db[filename] = str(len(db))+'.cPickle'
 		with open(db_path,'w') as fout :
