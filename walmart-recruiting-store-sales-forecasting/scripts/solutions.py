@@ -62,6 +62,8 @@ class Predictor():
 			model = None
 			if len(idx) >= 5 :
 				model = fit_instances(idx,key)
+			else :
+				logging.warn('not enough instance(%d) for id %s'%(len(idx),key))
 			if kid % log_step==0:
 				logging.info('model %s fit with #%d ins'%(key,len(idx)))
 			return key,model
@@ -219,7 +221,32 @@ solutions = {
 		],
 		'featureFactory' : 'make_sparse_instance'
 	},
-	'20140423' : {
+	'20140425' : {
+		'train_path' : 'train.csv',
+		'test_path' : 'test.csv',
+
+		'modelFactory' : (
+				'RGF',
+				{
+					'lazy' : False,
+					'params' : 'max_leaf_forest=2000,min_pop=5,algorithm=RGF_Sib',
+					'sparse' : True,
+				}
+		),
+		'feature' : [
+				('001f',),
+				('012',),
+				('009',),
+				('015','Store',['Weekly_Sales']),
+				('016',),
+				('018',['Store','Dept'],365,1,0.8)
+				('018',['Dept'],365,1,0.8),
+				('018',['Store'],365,1,0.8),  
+		],
+		'nonlinears' : [],
+		'featureFactory' : 'make_sparse_instance',
+	},
+	'current' : {
 		'train_path' : 'train.csv',
 		'test_path' : 'test.csv',
 
@@ -240,7 +267,27 @@ solutions = {
 				('009',),
 				('015','Store',['Weekly_Sales']),
 				('016',),
-				('017',['Store','Dept'],7,365,1,2),
+				#('017',['Store','Dept'],7,365,1,2),
+				('018',['Store','Dept'],365,1,0.8),
+				('018',['Dept'],365,1,0.8),
+				('018',['Store'],365,1,0.8),
+
+				('019',['Store','Dept'],'SeasonA',4,1,0.1),
+				('019',['Detp'],'SeasonA',4,1,0.1),
+				('019',['Store'],'SeasonA',4,1,0.1),
+
+				('019',['Store','Dept'],'WeekYear',52,1,0.8),
+				('019',['Detp'],'WeekYear',52,1,0.8),
+				('019',['Store'],'WeekYear',52,1,0.8),
+
+				('019',['Store','Dept'],'WeekMonth',4,1,0.8),
+				('019',['Detp'],'WeekMonth',4,1,0.8),
+				('019',['Store'],'WeekMonth',4,1,0.8),
+
+				('019',['Store','Dept'],'Month',12,1,0.8),
+				('019',['Detp'],'Month',12,1,0.8),
+				('019',['Store'],'Month',12,1,0.8),
+
 		],
 		'nonlinears' : [],#['001','002','004'],
 		'featureFactory' : 'make_sparse_instance',
@@ -264,29 +311,7 @@ solutions = {
 			('009',),
 		],
 	},
-	'current' : {
-		'train_path' : 'train.csv',
-		'test_path' : 'test.csv',
-
-		'modelFactory' : (
-				'RGF',
-				{
-					'lazy' : False,
-					'params' : 'max_leaf_forest=2000,min_pop=5,algorithm=RGF_Sib',
-					'sparse' : True,
-				}
-		),
-		'feature' : [
-				('001f',),
-				('012',),
-				('009',),
-				('015','Store',['Weekly_Sales']),
-				('016',),
-				('017',['Store','Dept'],7,365,1,2),
-		],
-		'nonlinears' : [],
-		'featureFactory' : 'make_sparse_instance',
-	},
+	
 }
 
 def get_object(base,names):
@@ -307,7 +332,7 @@ def run_solution(version='current'):
 	karg['modelFactory'] = make_model_factory(*karg['modelFactory'])
 	karg['featureFactory'] = instances.__dict__[ karg['featureFactory'] ]
 	
-	if karg['baseModelFactory'] :
+	if 'baseModelFactory' in karg and karg['baseModelFactory'] :
 		karg['baseModelFactory'] = make_model_factory(*karg['baseModelFactory'])
 		karg['baseFeatureFactory'] = instances.__dict__[ karg['baseFeatureFactory'] ]
 	
