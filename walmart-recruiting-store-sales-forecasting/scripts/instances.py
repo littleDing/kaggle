@@ -113,6 +113,7 @@ def feature_001_fna(feature,method,karg):
 
 def feature_011(feature,column,fillna='Store'):
 	'''
+	@param[in] column ['column name in basic feature.csv']
 	@return id => feature normalized within a group after grouped by column
 	'''
 	original = pd.read_csv(os.path.join(utils.DATA_DIR,'features.csv'))
@@ -529,7 +530,7 @@ def feature_018(feature,groupby,cycle,c,kernel_base):
 	return ans
 
 
-#@decorators.disk_cached(utils.CACHE_DIR+'/date_mapping_019')
+@decorators.disk_cached(utils.CACHE_DIR+'/date_mapping_019')
 def date_mapping_019(f,t,groupby,timeline,cycle,c,kernel_base):
 	'''
 	exponential backoff kernel density esitimation based on groupbyid
@@ -574,6 +575,46 @@ def feature_019(feature,groupby,timeline,cycle,c,kernel_base):
 	ans 	= pd.merge(IDS,mapping,how='left')
 	ans.rename(columns={'Weekly_Sales':'Kernel18%s'%('_'.join(map(str,[groupby,timeline,cycle,c,kernel_base])))},inplace=True)
 	return ans
+
+@decorators.disk_cached(utils.CACHE_DIR+'/date_mapping_020')
+def date_mapping_020(f,t,groupby,timeline,delta,cycle,c,kernel_base):
+	'''
+	exponential backoff kernel density esitimation based on groupbyid
+	density<id,date> = sum( (kernel_base**(c+|(d-date)|%base))*sales_on_d  )
+	date unit is estimated using timeline
+	@param[in] timeline "name of timeline feature", within {"WeekMonth","WeekYear","Month","WeekA","MonthA","SeasonA","YearA"}
+	@return id,date => (kernel density)
+	'''
+	keys 	= groupby + ['Date','Weekly_Sales']
+	if timeline in ["WeekMonth","WeekYear","Month"]:
+		original_date = date_mapping_001('2010-01-01','2013-12-31')[['Date',timeline]]
+	elif timeline in ["WeekA","MonthA","SeasonA","YearA"]:
+		original_date = date_mapping_003('2010-01-01','2013-12-31')[['Date',timeline]]
+	basic 	= basic_features('train.csv')[groupby+['Date','Weekly_Sales']]
+	buffs 	= []
+	for key,value in basic.groupby(groupby):
+		value = pd.merge(value,original_date)
+		density = []
+		for d in range(cycle):
+			dis = abs(value[timeline]-d)%cycle
+			w = kernel_base**(dis+c)
+			d = (w*value['Weekly_Sales']).sum()/w.sum()
+			density.append(d)
+		columns = { 'Weekly_Sales':density,timeline:range(cycle) }
+		if len(groupby)==1 :
+			columns[groupby[0]] = key
+		else :
+			for k in range(len(groupby)):
+				columns[groupby[k]] = key[k]
+		buffs.append(pd.DataFrame(columns))
+	buff = pd.concat(buffs)
+	#deltas 	= pd.Series([ i%cycle for i in range(len(dates)) ])
+	#original_date = pd.DataFrame({'Date':dates,'delta':deltas})
+	original_date[timeline] = original_date[timeline]%cycle
+	date_recovered = pd.merge(buff,original_date)
+	return date_recovered[keys]
+
+
 
 def make_instance(base,versions=[]):
 	'''
