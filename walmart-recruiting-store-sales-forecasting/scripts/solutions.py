@@ -312,8 +312,49 @@ solutions = {
 		],
 	},
 
-	'Double' : { 'train_path' : 'train.csv', 'test_path' : 'test.csv', 'modelFactory' : ( 'Predictor', { 'ids' : ['Dept','Store'], 'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=False,params='max_leaf_forest=2000,min_pop=3,algorithm=RGF_Opt')), 'supportW' : True, 'supportSparse' : False, 'negetiveY' : 'ignore' } ), 'modelNeedID' : ['Dept','Store'], 'feature' : [ ('001f',), ('012',), ('009',), ('015','Store',['Weekly_Sales']), ('016',), ('018',['Store','Dept'],365,1,0.8) ('018',['Dept'],365,1,0.8), ('018',['Store'],365,1,0.8), ('019',['Store','Dept'],'SeasonA',4,1,0.1), ('019',['Dept'],'SeasonA',4,1,0.1), ('019',['Store'],'SeasonA',4,1,0.1), ('019',['Store','Dept'],'WeekYear',52,1,0.8), ('019',['Dept'],'WeekYear',52,1,0.8), ('019',['Store'],'WeekYear',52,1,0.8), ('019',['Store','Dept'],'WeekMonth',4,1,0.8), ('019',['Dept'],'WeekMonth',4,1,0.8), ('019',['Store'],'WeekMonth',4,1,0.8), ('019',['Store','Dept'],'Month',12,1,0.8), ('019',['Dept'],'Month',12,1,0.8), ('019',['Store'],'Month',12,1,0.8), ], 'nonlinears' : [], 'featureFactory' : 'make_sparse_instance', 'baseModelFactory' :( 'Predictor', { 'ids' : ['Dept','Store'], 'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=True,params='max_leaf_forest=5000,min_pop=3,algorithm=RGF_Sib')), 'supportW' : True, 'supportSparse' : False, 'negetiveY' : 'ignore' } ), 'baseModelNeedID' : ['Dept'], 'baseFeatureFactory' : 'make_sparse_instance', 'baseFeature' : [ ('001f',), ('012',), ('009',), ('015','Store',['Weekly_Sales']), ('016',), ('018',['Store','Dept'],365,1,0.8), ('018',['Dept'],365,1,0.8), ('018',['Store'],365,1,0.8), ('019',['Store','Dept'],'SeasonA',4,1,0.1), ('019',['Dept'],'SeasonA',4,1,0.1), ('019',['Store'],'SeasonA',4,1,0.1), ('019',['Store','Dept'],'WeekYear',52,1,0.8), ('019',['Dept'],'WeekYear',52,1,0.8), ('019',['Store'],'WeekYear',52,1,0.8), ('019',['Store','Dept'],'WeekMonth',4,1,0.8), ('019',['Dept'],'WeekMonth',4,1,0.8), ('019',['Store'],'WeekMonth',4,1,0.8), ('019',['Store','Dept'],'Month',12,1,0.8), ('019',['Dept'],'Month',12,1,0.8), ('019',['Store'],'Month',12,1,0.8), ], },
-	'Single' : { 'train_path' : 'train.csv', 'test_path' : 'test.csv', 'modelFactory' : ( 'Predictor', { 'ids' : ['Dept','Store'], 'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=False,params='max_leaf_forest=20000,min_pop=3,algorithm=RGF_Opt')), 'supportW' : True 'supportSparse' : False, 'negetiveY' : 'ignore' } ), 'modelNeedID' : ['Dept'], 'feature' : [ ('001f',), ('012',), ('009',), ('015','Store',['Weekly_Sales']), ('016',), ('011',['Store']), ('011',['Date']), ('018',['Store','Dept'],365,1,0.8), ('018',['Dept'],365,1,0.8), ('018',['Store'],365,1,0.8), ('019',['Store','Dept'],'SeasonA',4,1,0.1) ('019',['Dept'],'SeasonA',4,1,0.1), ('019',['Store'],'SeasonA',4,1,0.1), ('019',['Store','Dept'],'WeekYear',52,1,0.8), ('019',['Dept'],'WeekYear',52,1,0.8), ('019',['Store'],'WeekYear',52,1,0.8), ('019',['Store','Dept'],'WeekMonth',4,1,0.8), ('019',['Dept'],'WeekMonth',4,1,0.8), ('019',['Store'],'WeekMonth',4,1,0.8), ('019',['Store','Dept'],'Month',12,1,0.8), ('019',['Dept'],'Month',12,1,0.8), ('019',['Store'],'Month',12,1,0.8), ], 'nonlinears' : [], 'featureFactory' : 'make_sparse_instance', 'baseModelFactory' : None, '123':( 'Predictor', { 'ids' : ['Dept','Store'], 'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=True,params='max_leaf_forest=5000,min_pop=3,algorithm=RGF_Sib')), 'supportW' : True, 'supportSparse' : False, 'negetiveY' : 'ignore' } ), 'baseModelNeedID' : ['Dept'], 'baseFeatureFactory' : 'make_sparse_instance', 'baseFeature' : ('001f',), ('012',), ('009',), ('015','Store',['Weekly_Sales']), ('016',), ('018',['Store','Dept'],365,1,0.8), ('018',['Dept'],365,1,0.8), ('018',['Store'],365,1,0.8), ('019',['Store','Dept'],'SeasonA',4,1,0.1), ('019',['Dept'],'SeasonA',4,1,0.1), ('019',['Store'],'SeasonA',4,1,0.1), ('019',['Store','Dept'],'WeekYear',52,1,0.8), ('019',['Dept'],'WeekYear',52,1,0.8), ('019',['Store'],'WeekYear',52,1,0.8), ('019',['Store','Dept'],'WeekMonth',4,1,0.8), ('019',['Dept'],'WeekMonth',4,1,0.8), ('019',['Store'],'WeekMonth',4,1,0.8), ('019',['Store','Dept'],'Month',12,1,0.8), ('019',['Dept'],'Month',12,1,0.8), ('019',['Store'],'Month',12,1,0.8), ], },
+	'Double' : { 
+		'train_path' : 'train.csv', 'test_path' : 'test.csv', 
+		'modelFactory' : ( 'Predictor', { 
+			'ids' : ['Dept','Store'], 
+			'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=False,params='max_leaf_forest=2000,min_pop=3,algorithm=RGF_Opt')), 
+			'supportW' : True, 
+			'supportSparse' : False, 
+			'negetiveY' : 'ignore' } ), 
+		'modelNeedID' : ['Dept','Store'], 
+		'feature' : [ 
+			('001f',), ('012',), ('009',), ('015','Store',['Weekly_Sales']), ('016',), 
+			('018',['Store','Dept'],365,1,0.8), ('018',['Dept'],365,1,0.8), ('018',['Store'],365,1,0.8), 
+			('019',['Store','Dept'],'SeasonA',4,1,0.1), ('019',['Dept'],'SeasonA',4,1,0.1), ('019',['Store'],'SeasonA',4,1,0.1), 
+			('019',['Store','Dept'],'WeekYear',52,1,0.8), ('019',['Dept'],'WeekYear',52,1,0.8), ('019',['Store'],'WeekYear',52,1,0.8), 
+			('019',['Store','Dept'],'WeekMonth',4,1,0.8), ('019',['Dept'],'WeekMonth',4,1,0.8), ('019',['Store'],'WeekMonth',4,1,0.8), 
+			('019',['Store','Dept'],'Month',12,1,0.8), ('019',['Dept'],'Month',12,1,0.8), ('019',['Store'],'Month',12,1,0.8), ], 
+		'nonlinears' : [], 
+		'featureFactory' : 'make_sparse_instance', 
+		'baseModelFactory' :( 'Predictor', { 'ids' : ['Dept','Store'], 'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=True,params='max_leaf_forest=5000,min_pop=3,algorithm=RGF_Sib')), 'supportW' : True, 'supportSparse' : False, 'negetiveY' : 'ignore' } ), 
+		'baseModelNeedID' : ['Dept'], 'baseFeatureFactory' : 'make_sparse_instance', 
+		'baseFeature' : [ ('001f',), ('012',), ('009',), ('015','Store',['Weekly_Sales']), ('016',), ('018',['Store','Dept'],365,1,0.8), ('018',['Dept'],365,1,0.8), ('018',['Store'],365,1,0.8), ('019',['Store','Dept'],'SeasonA',4,1,0.1), ('019',['Dept'],'SeasonA',4,1,0.1), ('019',['Store'],'SeasonA',4,1,0.1), ('019',['Store','Dept'],'WeekYear',52,1,0.8), ('019',['Dept'],'WeekYear',52,1,0.8), ('019',['Store'],'WeekYear',52,1,0.8), ('019',['Store','Dept'],'WeekMonth',4,1,0.8), ('019',['Dept'],'WeekMonth',4,1,0.8), ('019',['Store'],'WeekMonth',4,1,0.8), ('019',['Store','Dept'],'Month',12,1,0.8), ('019',['Dept'],'Month',12,1,0.8), ('019',['Store'],'Month',12,1,0.8), ], 
+	},
+	
+	'Single' : { 
+		'train_path' : 'train.csv', 'test_path' : 'test.csv', 
+		'modelFactory' : ( 'Predictor', { 
+			'ids' : ['Dept','Store'], 
+			'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=False,params='max_leaf_forest=20000,min_pop=3,algorithm=RGF_Opt')), 
+			'supportW' : True, 'supportSparse' : False, 'negetiveY' : 'ignore' } ), 
+		'modelNeedID' : ['Dept'], 
+		'feature' : [ ('001f',), ('012',), ('009',), ('015','Store',['Weekly_Sales']), ('016',), 
+			('011',['Store']), ('011',['Date']), 
+			('018',['Store','Dept'],365,1,0.8), ('018',['Dept'],365,1,0.8), ('018',['Store'],365,1,0.8), 
+			('019',['Store','Dept'],'SeasonA',4,1,0.1), ('019',['Dept'],'SeasonA',4,1,0.1), ('019',['Store'],'SeasonA',4,1,0.1), 
+			('019',['Store','Dept'],'WeekYear',52,1,0.8), ('019',['Dept'],'WeekYear',52,1,0.8), ('019',['Store'],'WeekYear',52,1,0.8), 
+			('019',['Store','Dept'],'WeekMonth',4,1,0.8), ('019',['Dept'],'WeekMonth',4,1,0.8), ('019',['Store'],'WeekMonth',4,1,0.8), 
+			('019',['Store','Dept'],'Month',12,1,0.8), ('019',['Dept'],'Month',12,1,0.8), ('019',['Store'],'Month',12,1,0.8), ], 
+		'nonlinears' : [], 
+		'featureFactory' : 'make_sparse_instance', 
+		'baseModelFactory' : None, '123':( 'Predictor', { 'ids' : ['Dept','Store'], 'modelFactory' : (lambda tag,std:RGF(tag=tag,lazy=True,params='max_leaf_forest=5000,min_pop=3,algorithm=RGF_Sib')), 'supportW' : True, 'supportSparse' : False, 'negetiveY' : 'ignore' } ), 
+		'baseModelNeedID' : ['Dept'], 'baseFeatureFactory' : 'make_sparse_instance', 
+		'baseFeature' : [('001f',), ('012',), ('009',), ('015','Store',['Weekly_Sales']), ('016',), ('018',['Store','Dept'],365,1,0.8), ('018',['Dept'],365,1,0.8), ('018',['Store'],365,1,0.8), ('019',['Store','Dept'],'SeasonA',4,1,0.1), ('019',['Dept'],'SeasonA',4,1,0.1), ('019',['Store'],'SeasonA',4,1,0.1), ('019',['Store','Dept'],'WeekYear',52,1,0.8), ('019',['Dept'],'WeekYear',52,1,0.8), ('019',['Store'],'WeekYear',52,1,0.8), ('019',['Store','Dept'],'WeekMonth',4,1,0.8), ('019',['Dept'],'WeekMonth',4,1,0.8), ('019',['Store'],'WeekMonth',4,1,0.8), ('019',['Store','Dept'],'Month',12,1,0.8), ('019',['Dept'],'Month',12,1,0.8), ('019',['Store'],'Month',12,1,0.8), ], 
+	},
 }
 
 def get_object(base,names):
