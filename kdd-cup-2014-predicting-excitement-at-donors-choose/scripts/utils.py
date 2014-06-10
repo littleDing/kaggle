@@ -1,4 +1,6 @@
 import os,json,logging,traceback,sqlite3,datetime
+import pandas as pd
+from decorators import memory_cached
 logging.basicConfig(level=logging.INFO,format='%(asctime)s %(funcName)s@%(filename)s#%(lineno)d %(levelname)s %(message)s')
 
 PWD = os.path.split(os.path.abspath(__file__))[0]
@@ -36,3 +38,8 @@ def get_periods(from_date,to_date=None,delta=None):
 	if delta == None:
 		delta = (to_date - from_date).days +1
 	return [ from_date+datetime.timedelta(i) for i in range(delta) ]
+
+@memory_cached
+def read_csv(filename):
+	return pd.read_csv(os.path.join(DATA_DIR,filename))
+

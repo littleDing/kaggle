@@ -5,6 +5,7 @@ import sklearn
 import sklearn.linear_model
 import sklearn.svm
 import sklearn.ensemble
+from sklearn import svm,linear_model,ensemble,naive_bayes
 from sklearn.cross_validation import KFold
 from sklearn.metrics import roc_auc_score
 import pandas as pd,numpy as np
@@ -66,17 +67,17 @@ def cross_validations(seed,fold,train_ID):
 	@return [ (train_index,test_index) ]
 	'''
 	kfold = []
-	for train_index,test_index in KFold(len(train_ID),fold,shuffle=True,random_state=seed):
+	for train_index,test_index in KFold(len(train_ID),fold,shuffle=False,random_state=seed):
 		kfold.append( (train_index,test_index) )
 	return kfold
 
 def solution(cross_validation=None,
 		modelFactory=sklearn.linear_model.LogisticRegression,
 		featureFactory=instances.make_sparse_instance,
-		feature=[],
+		feature=[],combination=0,
 		version='current',**karg):
 	def _train_test(train_x,train_y,test_x):
-		logging.info('shapes : train_x=%s train_y=%s test_x=%s'%(train_x.shape,train_y.shape,test_x.shape))
+		logging.info('shapes : train_x=%s train_y=%s(+%s%%) test_x=%s'%(train_x.shape,train_y.shape,train_y.mean(),test_x.shape))
 		model = modelFactory()							
 		model.fit(train_x,train_y) 						
 		train_yy = model.predict_proba(train_x)[:,1] 	
@@ -84,11 +85,15 @@ def solution(cross_validation=None,
 
 		test_yy = model.predict_proba(test_x)[:,1]
 		return test_yy,train_auc
-
-	train_X,train_Y,train_ID,test_X,test_ID = featureFactory(feature)
+	
+	if combination==0:
+		train_X,train_Y,train_ID,test_X,test_ID = featureFactory(feature)
+	else :
+		train_X,train_Y,train_ID,test_X,test_ID = featureFactory(feature,combination)
 	logging.info('feature data loaded')	
 	if cross_validation != None :
-		seed,fold = cross_validation
+		seed,fold = cross_validation[:2]
+		atmost = cross_validation[2] if len(cross_validation)>=3 else 9999
 		logging.info('%s-fold cross_validating with seed %s'%(fold,seed))
 		aucs = []
 		for i,indexes in enumerate(cross_validations(seed,fold,train_ID)):
@@ -96,12 +101,20 @@ def solution(cross_validation=None,
 			train_index,test_index = indexes
 			train_x,train_y = train_X[train_index],train_Y[train_index]
 			test_x,test_y = train_X[test_index],train_Y[test_index]
+			if test_y.sum()==0 or train_y.sum()==0 :
+				logging.info('label not well seperated, give up this fold')
+				continue
 
 			test_yy,train_auc = _train_test(train_x,train_y,test_x)
 			test_auc = roc_auc_score(test_y,test_yy)
 			aucs.append( (train_auc,test_auc) )
 			logging.info('%d fold finished #ins=%s,%s auc=%s,%s'%(i,len(train_y),len(test_y),train_auc,test_auc))
-		logging.warn('aucs=%s')
+			
+			atmost = atmost-1
+			if atmost<=0 :
+				break
+
+		logging.warn('kf=%s\taucs=%s'%((seed,fold),aucs))
 		acs = [ t0 for t0,t1 in aucs ]
 		logging.warn('kf=%s\ttraining\tauc_min=%s\tauc_mean=%s\tauc_max=%s\tauc_std=%s'%(
 					(seed,fold),	min(acs), 		np.mean(acs),max(acs),	np.std(acs) ) )
@@ -117,9 +130,12 @@ def solution(cross_validation=None,
 	
 solutions = {
 	'current' : {
-		'cross_validation' : (123,5),
-		'modelFactory' : ('sklearn.linear_model.LogisticRegression',{'penalty':'l1'}),
-		'feature' : [ ('001',),('002',),('003',),('004',)],
+		'cross_validation' : (11717,14,3),
+		'modelFactory' : ('naive_bayes.MultinomialNB',{}),
+		#'modelFactory' : ('linear_model.LogisticRegression',{'penalty':'l1','C'11}),
+		'feature' : [ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',),('009',)],
+		#'feature' : [ ('001',),('002',),('003',),('004a',),('005',10),('006',)],
+		'combination' : 0,
 		'featureFactory' : 'make_sparse_instance'
 	},
 }
@@ -138,6 +154,8 @@ def make_model_factory(name,karg):
 def run_solution(version='current'):
 	karg = solutions[version]
 	karg['version'] = version
+
+	logging.info(karg)
 	
 	karg['modelFactory'] = make_model_factory(*karg['modelFactory'])
 	karg['featureFactory'] = instances.__dict__[ karg['featureFactory'] ]

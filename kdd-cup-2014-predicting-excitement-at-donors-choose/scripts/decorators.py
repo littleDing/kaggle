@@ -1,4 +1,4 @@
-import os,cPickle,logging
+import os,cPickle,logging,pickle
 
 def write_to_file(path,seperator=' '):
 	def wrapper(func):
@@ -39,7 +39,10 @@ def disk_cached(prefix):
 			if os.path.exists(path):
 				logging.info('pickle exists : %s'%(path))
 				with open(path) as fin:
-					value = cPickle.load(fin)
+					try :
+						value = cPickle.load(fin)
+					except :
+						value = pickle.load(fin)
 				logging.info('pickle loaded : %s'%(path))
 			else :
 				logging.info('pickle not exists : %s'%(path))
@@ -71,3 +74,4 @@ def memory_cached(func):
 				value = func(*args)
 				list_cache.append((args,value))
 		return value
+	return _func

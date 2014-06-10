@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import scipy.sparse
 from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import GradientBoostingRegressor
 import sklearn.metrics
 from sklearn.cross_validation import KFold
@@ -60,20 +61,28 @@ def feature_003(feature):
 	dimensions = {}
 	for c in columns:
 		uniques = data[c].unique()
-		mapping = { k:v for k,v in enumerate(uniques) }
+		mapping = { v:i for i,v in enumerate(uniques) }
 		data[c] = data[c].map(mapping)
 		dimensions[c] = len(mapping)
 	return data,dimensions
 
-def feature_004(feature,dim=40,step=0.2):
+def sparse_encoder(feature,columns,atleast=30,atmost=1000000):
+	'''
+	@return id=> sparse discrete values
+	'''
+	data = feature[['projectid']+columns]
+	dimensions = {}
+	for c in columns:
+		uniques = data[c].value_counts()
+		uniques = uniques[ uniques>atleast ][:atmost].index
+		mapping = { v:i+1 for i,v in enumerate(uniques) }
+		data[c] = data[c].map(mapping).fillna(0)
+		dimensions[c] = len(mapping)+1
+	return data,dimensions
+def sparse_encoder_002(feature,columns,dim,step):
 	'''
 	@return id => sparsed continuous values in projects.csv
 	'''
-	columns = [
-		'school_latitude','school_longitude',
-		'total_price_excluding_optional_support','total_price_including_optional_support',
-		'students_reached',
- 	]
  	data = feature[['projectid']+columns]
 	dimensions = {}
 	for c in columns:
@@ -83,6 +92,86 @@ def feature_004(feature,dim=40,step=0.2):
 		data[c] = np.floor(data[c])
 		dimensions[c] = dim+2
 	return data,dimensions
+def sparse_encoder_003(feature,columns,atleast):
+	'''
+	@return id=> pos% of discrete values
+	'''
+	data = feature[['projectid']+columns]
+
+def feature_004(feature,dim=40,step=0.2):
+	columns = [
+		'school_latitude','school_longitude',
+		'total_price_excluding_optional_support','total_price_including_optional_support',
+		'students_reached',
+ 	]
+	return sparse_encoder_002(feature,columns,dim,step)
+def feature_004a(feature,dim=40,step=0.2):
+	columns = [
+		'school_latitude','school_longitude',
+		'total_price_excluding_optional_support','total_price_including_optional_support',
+		'students_reached','fulfillment_labor_materials'
+ 	]
+	return sparse_encoder_002(feature,columns,dim,step)
+
+def feature_005(feature,atleast=100):
+	columns = ['teacher_acctid','schoolid','school_city','school_district']
+	return sparse_encoder(feature,columns,atleast)
+def feature_006(feature):
+	'''
+	@return id => date posted time feature
+	'''
+	dat = feature.date_posted
+	data = pd.DataFrame( feature['projectid'] )
+	data['month'] 		= dat.map(lambda x:int(x[5:7]))
+	data['day']			= dat.map(lambda x:int(x[8:10]))
+	data['season']  	= data['month']/4
+	data['abs_season']	= data['season'] + dat.map(lambda x:int(x[2:4]))*4
+	dimensions = { 'month':13,'day':32,'season':5,'abs_season':1 }
+	return data,dimensions
+	columns = [
+		'school_state','school_metro','school_county',
+		'teacher_prefix','primary_focus_subject','primary_focus_area',
+		'secondary_focus_subject','secondary_focus_area',
+		'resource_type','poverty_level','grade_level',
+ 	]
+def feature_007(feature,atleast=10):
+	columns = [
+			'teacher_acctid',
+			'schoolid','school_city','school_state','school_metro','school_district','school_county',
+			'teacher_prefix',
+			'primary_focus_subject','primary_focus_area',
+			'secondary_focus_subject','secondary_focus_area',
+			'resource_type',
+			'poverty_level','grade_level',
+	]
+	return sparse_encoder(feature,columns,atleast)
+
+def feature_008(feature,dim=40,step=0.2):
+	''' @return id => sparse encoded text lengths in essays.csv '''
+	essays = utils.read_csv('essays.csv')   #pd.read_csv(os.path.join(utils.DATA_DIR,'essays.csv'))
+	data = pd.DataFrame(feature.projectid)
+	columns = ['title','short_description','need_statement','essay']
+	for c in columns :
+		data['length_%s'%(c)] = essays[c].fillna('').map(len)
+	columns = [ 'length_%s'%(c) for c in columns ]
+	return sparse_encoder_002(data,columns,dim,step)
+def tfidf_encoder(filename,columns,max_df,min_df,max_features):
+	df = utils.read_csv('essays.csv')
+	data = pd.DataFrame(df.projectid)
+	dimemsions = {}
+	for c in columns :
+		texts = df[c].fillna('')
+		model  = TfidfVectorizer(max_df=max_df,min_df=min_df,max_features=max_features)
+		model.fit(texts)
+		vector = model.transform(texts)
+		c_name = '%s:tfidf_%s'%(filename,c)
+		data[c_name] = map(lambda x:{ k:x[0,k] for k in x.nonzero()[1] },vector)
+		dimemsions[c_name] = vector.shape[1]
+	return data,dimemsions
+
+def feature_009(feature,max_df=0.5,min_df=100,max_features=5000):
+	''' @return id => title vector of essays.csv '''
+	return tfidf_encoder('essay.csv',['title','short_description','need_statement'],max_df,min_df,max_features)
 
 def nonlinear_001(x):
 	return x**2
@@ -93,8 +182,12 @@ def nonlinear_003(x):
 def nonlinear_004(x):
 	return np.log(x-x.min()+1)
 
+
+
+
+
 @decorators.disk_cached(utils.CACHE_DIR+'/sparse_features')
-def make_sparse_instance(versions=[]):
+def make_sparse_instance(versions=[],combination=0):
 	'''
 	@param[in] versions [ (feature_versions,feature_args) ]
 		the specific feature factory is func(ids,*args) => (featureDataFrame,dimensions)
@@ -127,22 +220,49 @@ def make_sparse_instance(versions=[]):
 	# transform sparse features
 	initColumns = [ '%s_%d'%(n,i) if c>1 else n for n,c in columns.items() for i in range(c) ]
 	columnMapping = { c:i for i,c in enumerate(initColumns) }
+	
+	if False:
+		for i in range(combination):
+			old_cs = columnMapping.keys()
+			new_cs = [ '%s**%s'%(k1,k2) for i1,k1 in enumerate(old_cs) for i2,k2 in enumerate(old_cs[i1+1:]) ]
+			base = len(old_cs)
+			columnMapping.update({ c:base+i for i,c in enumerate(new_cs) })
+
 	featureColumns = [ c for c in X.columns if c not in IDNames ]
 	logging.info('#featuers=%d'%(len(columnMapping)))
 	
 	X_Date = pd.merge(X,ID_DATE)
 	outcomes = pd.read_csv(os.path.join(utils.DATA_DIR,'outcomes.csv'))
 	X_Date = pd.merge(X_Date,outcomes,how='left')
-	X_Date = X_Date.sort('projectid')
+	X_Date = X_Date.sort(['date_posted','projectid'])
+	X_Date.index = range(X_Date.shape[0])
 
 	X = X_Date[featureColumns].fillna(0)
 	data,row,col = [],[],[]
+
 	for i in range(X.shape[0]):
 		ins = X.loc[i]
-		items = [ ('%s_%d'%(c,ins[c]),1) if columns[c]>1 else (c,ins[c]) for c in featureColumns ]
+		items =  [ ('%s_%d'%(c,ins[c]),1) if columns[c]>1 else (c,ins[c]) for c in featureColumns if type(ins[c])!=dict ]
+		items += [ ('%s_%d'%(c,k),v)  for c in featureColumns if type(ins[c])==dict for k,v in ins[c].iteritems() ]
 		data += [ v for k,v in items ]
 		row  += [i]*len(items)
 		col  += [ columnMapping[k] for k,v in items ]
+		
+		for c in range(combination):
+			for i1,it1 in enumerate(items):
+				k1,v1 = it1
+				for i2,it2 in enumerate(items[i1+1:]):
+					k2,v2 = it2
+					data.append(v1*v2)
+					row.append(i)
+					c_name = '%s**%s'%(k1,k2)
+					if c_name not in columnMapping:
+						c_name = '%s**%s'%(k2,k1)
+						if not c_name in columnMapping:
+							columnMapping[c_name] = len(columnMapping)
+					c_idx  = columnMapping[c_name]
+					col.append(c_idx)
+		
 		if i%10000==0 :
 			logging.info('%d lines generated'%i)
 	
