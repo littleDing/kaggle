@@ -1,4 +1,6 @@
 {
 	"root_dir" : null,
+	"hadoop" : "/opt/hadoop/bin/hadoop",
+	"hdfs_data" : "/data/kddcup2014/",
 	"rgf" : "/Users/littleding/IDE/rgf1.2/bin/rgf"
 }

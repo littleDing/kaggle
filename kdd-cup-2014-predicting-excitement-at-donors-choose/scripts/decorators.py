@@ -39,16 +39,13 @@ def disk_cached(prefix):
 			if os.path.exists(path):
 				logging.info('pickle exists : %s'%(path))
 				with open(path) as fin:
-					try :
-						value = cPickle.load(fin)
-					except :
-						value = pickle.load(fin)
+					value = pickle.load(fin)
 				logging.info('pickle loaded : %s'%(path))
 			else :
 				logging.info('pickle not exists : %s'%(path))
 				value = func(*args,**karg)
 				with open(path,'w') as fout:
-					cPickle.dump(value,fout)
+					pickle.dump(value,fout)
 				logging.info('pickle written : %s'%(path))
 			return value
 		return _func

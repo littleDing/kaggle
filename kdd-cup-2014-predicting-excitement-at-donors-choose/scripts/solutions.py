@@ -5,6 +5,7 @@ import sklearn
 import sklearn.linear_model
 import sklearn.svm
 import sklearn.ensemble
+import sklearn.decomposition
 from sklearn import svm,linear_model,ensemble,naive_bayes
 from sklearn.cross_validation import KFold
 from sklearn.metrics import roc_auc_score
@@ -74,7 +75,7 @@ def cross_validations(seed,fold,train_ID):
 def solution(cross_validation=None,
 		modelFactory=sklearn.linear_model.LogisticRegression,
 		featureFactory=instances.make_sparse_instance,
-		feature=[],combination=0,
+		feature=[],combination=0,transformer=None,
 		version='current',**karg):
 	def _train_test(train_x,train_y,test_x):
 		logging.info('shapes : train_x=%s train_y=%s(+%s%%) test_x=%s'%(train_x.shape,train_y.shape,train_y.mean(),test_x.shape))
@@ -90,6 +91,11 @@ def solution(cross_validation=None,
 		train_X,train_Y,train_ID,test_X,test_ID = featureFactory(feature)
 	else :
 		train_X,train_Y,train_ID,test_X,test_ID = featureFactory(feature,combination)
+	if transformer !=None:
+		transformer.fit(train_X)
+		train_X = transformer.transform(train_X)
+		test_X = transformer.transform(test_X)
+
 	logging.info('feature data loaded')	
 	if cross_validation != None :
 		seed,fold = cross_validation[:2]
@@ -137,6 +143,35 @@ solutions = {
 		#'feature' : [ ('001',),('002',),('003',),('004a',),('005',10),('006',)],
 		'combination' : 0,
 		'featureFactory' : 'make_sparse_instance'
+	},
+	'dense' : {
+		'cross_validation' : (11717,14,3),
+		'modelFactory' : ('ensemble.GradientBoostingClassifier',{'verbose':2,'n_estimators':200,'max_depth':5,'min_samples_leaf':2000}),
+		'feature':[('001',),('002',),('004d',),('003dt',[u'is_exciting'],30),('003dtw',[u'is_exciting'],30,10)],
+		'featureFactory' : 'make_dense_instance'
+	},
+	'dense2' : {
+		'cross_validation' : (11717,14,3),
+		'modelFactory' : ('ensemble.GradientBoostingClassifier',{'verbose':2,'n_estimators':100,'max_depth':5,'min_samples_leaf':2000}),
+		'feature' : [ ('001',),('002',),('004d',),
+			('007dt',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'],30),
+			('007dtw',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'],30,10),
+			],
+		'featureFactory' : 'make_dense_instance'
+	},
+	'dense3' : {
+		'cross_validation' : (11717,14,3),
+		'modelFactory' : ('ensemble.GradientBoostingClassifier',{'verbose':2,'n_estimators':100,'max_depth':5,'min_samples_leaf':2000}),
+		'feature' : [ ('001',),('002',),('004d',),
+			('007dt',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'],30),
+			],
+		'featureFactory' : 'make_dense_instance'
+	},
+	'dense4' : {
+		'cross_validation' : (11717,14,3),
+		'modelFactory' : ('ensemble.GradientBoostingClassifier',{'verbose':2,'n_estimators':200,'max_depth':5,'min_samples_leaf':2000}),
+		'feature':[('001',),('002',),('004d',),('003dt',[u'is_exciting'],30),('003dtw',[u'is_exciting'],30,5),('003dtw',[u'is_exciting'],30,10)],
+		'featureFactory' : 'make_dense_instance'
 	},
 }
 
