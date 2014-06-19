@@ -24,6 +24,12 @@ CACHE_DIR = load_dir('caches')
 DATA_DIR = load_dir('data')
 ANS_DIR = load_dir('answers')
 TEMP_DIR = load_dir('temp')
+RGF_TEMP_DIR = load_dir('temp/rgf')
+
+HDFS = CONFIGS.get('hdfs')
+HDFS_HOST = HDFS.get('host','localhost:54310')
+HDFS_DATA_DIR = os.path.join('hdfs://'+HDFS_HOST,HDFS.get('data',None))
+HDFS_CACHE_DIR = os.path.join('hdfs://'+HDFS_HOST,HDFS.get('cache',None))
 
 def get_date(s):
 	return datetime.date(*map(int,s.split('-')))
@@ -41,5 +47,27 @@ def get_periods(from_date,to_date=None,delta=None):
 
 @memory_cached
 def read_csv(filename):
-	return pd.read_csv(os.path.join(DATA_DIR,filename))
+	return pd.read_csv(os.path.join(DATA_DIR,filename),true_values='t',false_values='f')
+
+@memory_cached
+def spark():
+	conf = CONFIGS.get('spark',{})
+	from pyspark import SparkContext
+	sc = SparkContext(conf.get('host','local'))
+	return sc
+
+def to_rdd(filename,sep=',',true_values=None,false_values=None):
+	if true_values == None and false_values == None:
+		def spliter(s):
+			sp = s.split(sep)
+			return sp[0],sp[1:]
+	else :
+		def spliter(s):
+			sp = s.split(sep)
+			value = map(lambda x:1 if x in true_values else x,sp[1:])
+			value = map(lambda x:0 if x in false_values else x,value)
+			return sp[0],value
+	sc = spark()
+	path = os.path.join(HDFS_DIR,filename)
+	return sc.textFile(path).map(spliter)
 

@@ -11,57 +11,7 @@ from sklearn.cross_validation import KFold
 from sklearn.metrics import roc_auc_score
 import pandas as pd,numpy as np
 
-import utils,instances
-
-class RGF():
-	def __init__(self,reg_L2=1,tag='default',params='',lazy=True,sparse=False):
-		self.tag = tag
-		self.prefix = os.path.join(utils.TEMP_DIR,'rgf/',self.tag)
-		self.params = 'reg_L2=%s'%(reg_L2)+params
-		self.lazy = lazy
-		self.sparse = sparse
-	def prepare_env(self,prefix,X,Y=None,W=None):
-		'''
-		write x,y,w to disk with prefix 
-		'''
-		def write(data,path):
-			if data != None :
-				df = pd.DataFrame(data)
-				df.to_csv(path,sep=' ',header=False,index=False)
-		if self.sparse :
-			X = X.toarray()
-		write(X,prefix+'.x')
-		write(Y,prefix+'.y')
-		write(W,prefix+'.w')
-	def find_model(self):
-		path = None
-		for i in range(100):
-			fack = self.prefix+'.model-%02d'%i
-			if os.path.exists(fack):
-				path = fack
-		return path
-	def fit(self,X,Y,W):
-		if self.lazy and self.find_model() :
-			return self
-		prefix = self.prefix + '.train'
-		self.prepare_env(prefix,X,Y,W)
-		params = '%s,train_x_fn=%s,test_x_fn=%s,train_y_fn=%s,test_y_fn=%s,train_w_fn=%s'%(self.params,prefix+'.x',prefix+'.x',prefix+'.y',prefix+'.y',prefix+'.w')
-		params = params + ',model_fn_prefix=%s.model'%(self.prefix)
-		cmd = '%s train_test %s'%(utils.CONFIGS['rgf'],params)
-		ret = os.popen(cmd).read()
-		return self
-	def predict(self,X):
-		prefix = self.prefix + '.test'
-		self.prepare_env(prefix,X)
-		model  = self.find_model()
-		params = 'model_fn=%s,test_x_fn=%s,prediction_fn=%s'%(model,prefix+'.x',prefix+'.pred')
-		cmd = '%s predict %s'%(utils.CONFIGS['rgf'],params)
-		try :
-			ret = os.popen(cmd).read()
-			yy = pd.read_csv(prefix + '.pred',header=None)[0]
-		except Exception,e:
-			logging.info(ret)
-		return yy
+import utils,instances,models
 
 def cross_validations(seed,fold,train_ID):
 	'''
@@ -132,6 +82,9 @@ def solution(cross_validation=None,
 	logging.warn('train_auc=%s'%(train_auc))
 	
 	ans = pd.DataFrame.from_dict({'projectid':test_ID,'is_exciting':test_yy})
+	mi,ma = ans.is_exciting.min(),ans.is_exciting.max()
+	if ma>1 or mi<0:
+		ans.is_exciting = (ans.is_exciting - mi)/(ma-mi)
 	ans.to_csv(os.path.join(utils.ANS_DIR,version+'.txt'),index=False,cols=['projectid','is_exciting'])	
 	
 solutions = {
@@ -146,8 +99,12 @@ solutions = {
 	},
 	'dense' : {
 		'cross_validation' : (11717,14,3),
-		'modelFactory' : ('ensemble.GradientBoostingClassifier',{'verbose':2,'n_estimators':200,'max_depth':5,'min_samples_leaf':2000}),
-		'feature':[('001',),('002',),('004d',),('003dt',[u'is_exciting'],30),('003dtw',[u'is_exciting'],30,10)],
+		'modelFactory' : ('ensemble.GradientBoostingClassifier',{'verbose':2,'max_features':'log2','n_estimators':400,'max_depth':5,'min_samples_leaf':2000}),
+		'feature':[('001',),('002',),('004d',),('003dt',[u'is_exciting'],30),
+			('003dtw',[u'is_exciting'],50,10),
+			('003dtw',[u'is_exciting'],50,30),
+			('003dtw',[u'is_exciting'],50,50),
+		],
 		'featureFactory' : 'make_dense_instance'
 	},
 	'dense2' : {
@@ -169,8 +126,18 @@ solutions = {
 	},
 	'dense4' : {
 		'cross_validation' : (11717,14,3),
-		'modelFactory' : ('ensemble.GradientBoostingClassifier',{'verbose':2,'n_estimators':200,'max_depth':5,'min_samples_leaf':2000}),
+		'modelFactory' : ('models.RGF',{'params':'max_leaf_forest=2000'}), 
 		'feature':[('001',),('002',),('004d',),('003dt',[u'is_exciting'],30),('003dtw',[u'is_exciting'],30,5),('003dtw',[u'is_exciting'],30,10)],
+		'featureFactory' : 'make_dense_instance'
+	},
+	'dense5' : {
+		'cross_validation' : (11717,14,3),
+		'modelFactory' : ('models.XGB',{'num_round':200,'nthread':5,'objective':'rank:pairwise',
+			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.05}), 
+		'feature' : [ ('002',),('004d',),('006d',),('008d',),('020',),('021',),
+			('007dt',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']),
+			#('007dtw',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'],10,5),
+		],
 		'featureFactory' : 'make_dense_instance'
 	},
 }
