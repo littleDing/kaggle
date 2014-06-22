@@ -133,7 +133,7 @@ def sparse_encoder_003(feature,columns,atleast,target_columns=['is_exciting']):
 		data = pd.merge(data,rate)
 	return data[['projectid']+dimensions.keys()],dimensions
 
-def prepare_data(filename,columns,target_columns=['is_exciting']):
+def prepare_data(filename,columns,target_columns=['is_exciting'],fillna=0):
 	feature = utils.read_csv(filename)
 	if filename != 'projects.csv':
 		pids = utils.read_csv('projects.csv')[['projectid','date_posted']]
@@ -145,7 +145,9 @@ def prepare_data(filename,columns,target_columns=['is_exciting']):
 	for c in outcomes.columns:
 		if c != 'projectid':
 			outcomes[c] = map(int,outcomes[c].fillna(0))
-	data = pd.merge(data,outcomes,how='left').fillna(0)
+	data = pd.merge(data,outcomes,how='left')
+	if fillna != None:
+		data = data.fillna(fillna)
 	return data
 
 def filter_values(data,c,atleast):
@@ -154,7 +156,7 @@ def filter_values(data,c,atleast):
 	mapping = { v:i+1 for i,v in enumerate(uniques) }
 	data[c] = data[c].map(mapping).fillna(0)
 
-def handle_column(data,c,target_columns,atleast,latest,tag):
+def handle_column(data,c,target_columns,atleast,latest,tag,fillna=None):
 	'''
 	@return v,date => pos%
 	'''
@@ -163,18 +165,39 @@ def handle_column(data,c,target_columns,atleast,latest,tag):
 	# state positive rate,cnts
 	if latest ==None :
 		cnt = 'cnt@%s'%(c,)
-		def transform(x):
-			x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
-			x = x.sort('date_posted')
-			x[cnt] = range(x.shape[0])
-			x[target_columns] = (x[target_columns].cumsum().div(x[cnt]+1,axis='index')).shift(1).fillna(0)
-			return x[target_columns+[cnt,'date_posted']]
+		if fillna == None:
+			def transform(x):
+				x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
+				x = x.sort('date_posted')
+				x[cnt] = range(x.shape[0])
+				x[target_columns] = (x[target_columns].cumsum().div(x[cnt]+1,axis='index')).shift(1)
+				x = x.fillna(0)
+				return x[target_columns+[cnt,'date_posted']]
+		else :
+			def transform(x):
+				x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
+				x = x.sort('date_posted')
+				x[cnt] = range(x.shape[0])
+				x[target_columns] = (x[target_columns].cumsum().div(x[cnt]+1,axis='index')).shift(1)
+				nans = x[target_columns[0]].isnull()
+				x.loc[nans,cnt] = x[target_columns[0]][nans]
+				x = x.fillna(method=fillna).fillna(0)
+				return x[target_columns+[cnt,'date_posted']]
 	else :
-		def transform(x):
-			x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
-			x = x.sort('date_posted')
-			x[target_columns] = pd.rolling_mean(x[target_columns],latest,min_periods=0).shift(1).fillna(0)
-			return x[target_columns+['date_posted']]
+		if fillna == None:
+			def transform(x):
+				x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
+				x = x.sort('date_posted')
+				x[target_columns] = pd.rolling_mean(x[target_columns],latest,min_periods=0).shift(1)
+				x = x.fillna(0)
+				return x[target_columns+['date_posted']]
+		else :
+			def transform(x):
+				x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
+				x = x.sort('date_posted')
+				x[target_columns] = pd.rolling_mean(x[target_columns],latest,min_periods=0).shift(1)
+				x = x.fillna(method=fillna).fillna(0)
+				return x[target_columns+['date_posted']]
 	stats = part.groupby(c).apply(transform)
 	stats = stats.reset_index().rename(columns={ t:'%s@%s.%s.%s'%(t,c,tag,latest) for t in target_columns })
 	name_columns = [ '%s@%s.%s.%s'%(t,c,tag,latest) for t in target_columns ]
@@ -186,29 +209,32 @@ def handle_column(data,c,target_columns,atleast,latest,tag):
 	return data,name_columns
 
 @decorators.disk_cached(utils.CACHE_DIR+'/sparse_encoder_004') 
-def sparse_encoder_004(filename,columns,atleast=0,target_columns=['is_exciting'],latest=None):
+def sparse_encoder_004(filename,columns,atleast=0,target_columns=['is_exciting'],latest=None,
+		outcome_na=0,groupby_na=None):
 	'''
 	@return id=> pos%,cnt in the PAST of discrete values,date
 	'''
-	data = prepare_data(filename,columns,target_columns)
+	data = prepare_data(filename,columns,target_columns,outcome_na)
 	logging.info('sparse_encoder_004 outcomes joined, data shape=%s'%(data.shape,))
 	dimensions = {}
 	for c in columns:
-		data,name_columns = handle_column(data,c,target_columns,atleast,latest,'se004')
+		data,name_columns = handle_column(data,c,target_columns,atleast,latest,'se004',groupby_na)
 		dimensions.update({ t:1 for t in name_columns })
 		logging.info('sparse_encoder_004 stats on %s ready, data shape=%s'%(c,data.shape))
 	return data[['projectid']+dimensions.keys()],dimensions
 
 @decorators.disk_cached(utils.CACHE_DIR+'/sparse_encoder_005') 
-def sparse_encoder_005(filename,columns,atleast=0,target_columns=['is_exciting'],latest=None):
+def sparse_encoder_005(filename,columns,atleast=0,target_columns=['is_exciting'],latest=None,
+		outcome_na=0,groupby_na=None
+		):
 	'''
 	@return id=> pos_mean,pos_max,cnt in the PAST of discrete SET values,date
 	'''
-	data = prepare_data(filename,columns,target_columns)
+	data = prepare_data(filename,columns,target_columns,outcome_na)
 	logging.info('sparse_encoder_005 outcomes joined, data shape=%s'%(data.shape,))
 	dimensions = {}
 	for c in columns:
-		data,name_columns = handle_column(data,c,target_columns,atleast,latest,'se005')
+		data,name_columns = handle_column(data,c,target_columns,atleast,latest,'se005',groupby_na)
 		dimensions.update({ t:1 for t in name_columns })
 		logging.info('sparse_encoder_005 stats on %s ready, data shape=%s'%(c,data.shape))
 	data 	= data[['projectid']+dimensions.keys()]
@@ -266,8 +292,7 @@ def feature_006d(feature):
 	dimensions = { 'month':1,'day':1,'season':1,'abs_season':1 }
 	return data,dimensions
 
-def feature_007(feature,atleast=10):
-	columns = [
+project_id_columns = [
 			'teacher_acctid',
 			'schoolid','school_city','school_state','school_metro','school_district','school_county',
 			'teacher_prefix',
@@ -276,47 +301,44 @@ def feature_007(feature,atleast=10):
 			'resource_type',
 			'poverty_level','grade_level',
 	]
-	return sparse_encoder(feature,columns,atleast)
+project_id_columns_small_first = [
+			'resource_type','teacher_prefix',
+			'teacher_acctid',
+			'schoolid','school_city','school_state','school_metro','school_district','school_county',
+			'primary_focus_subject','primary_focus_area',
+			'secondary_focus_subject','secondary_focus_area',
+			'poverty_level','grade_level',
+	]
+def feature_007(feature,atleast=10):
+	return sparse_encoder(feature,project_id_columns,atleast)
 def feature_007d(feature,atleast=10,target_columns=['is_exciting']):
 	''' @return id=> pos% of discrete features'''
-	columns = [
-			'teacher_acctid',
-			'schoolid','school_city','school_state','school_metro','school_district','school_county',
-			'teacher_prefix',
-			'primary_focus_subject','primary_focus_area',
-			'secondary_focus_subject','secondary_focus_area',
-			'resource_type',
-			'poverty_level','grade_level',
-	]
-	return sparse_encoder_003(feature,columns,atleast,target_columns)
+	return sparse_encoder_003(feature,project_id_columns,atleast,target_columns)
 def feature_007dt(feature,target_columns=['is_exciting'],atleast=0,include_all=False):
 	''' @return id=> pos% of discrete features'''
-	columns = [
-			'teacher_acctid',
-			'schoolid','school_city','school_state','school_metro','school_district','school_county',
-			'teacher_prefix',
-			'primary_focus_subject','primary_focus_area',
-			'secondary_focus_subject','secondary_focus_area',
-			'resource_type',
-			'poverty_level','grade_level',
-		]
+	columns = project_id_columns
 	if include_all :
-		columns += ['school_zip','school_ncesid']
+		columns = columns + ['school_zip','school_ncesid']
 	return sparse_encoder_004('projects.csv',columns,atleast,target_columns)
-def feature_007dtw(feature,target_columns=['is_exciting'],atleast=0,latest=None,include_all=False):
+def feature_007dtna(feature,target_columns=['is_exciting'],atleast=0,fillna='pad',include_all=True):
 	''' @return id=> pos% of discrete features'''
-	columns = [
-			'teacher_acctid',
-			'schoolid','school_city','school_state','school_metro','school_district','school_county',
-			'teacher_prefix',
-			'primary_focus_subject','primary_focus_area',
-			'secondary_focus_subject','secondary_focus_area',
-			'resource_type',
-			'poverty_level','grade_level',
-		]
+	columns = project_id_columns_small_first
+	if include_all :
+		columns = columns + ['school_zip','school_ncesid']
+	return sparse_encoder_004('projects.csv',columns,atleast,target_columns,None,None,fillna)
+
+def feature_007dtw(feature,target_columns=['is_exciting'],atleast=0,latest=None,include_all=True):
+	''' @return id=> pos% of discrete features'''
+	columns = project_id_columns
 	if include_all :
 		columns += ['school_zip','school_ncesid']
 	return sparse_encoder_004('projects.csv',columns,atleast,target_columns,latest)
+def feature_007dtwna(feature,target_columns=['is_exciting'],atleast=0,latest=None,fillna='pad',include_all=True):
+	''' @return id=> pos% of discrete features'''
+	columns = project_id_columns
+	if include_all :
+		columns += ['school_zip','school_ncesid']
+	return sparse_encoder_004('projects.csv',columns,atleast,target_columns,latest,None,fillna)
 
 def feature_008(feature,dim=40,step=0.2):
 	''' @return id => sparse encoded text lengths in essays.csv '''
