@@ -266,6 +266,18 @@ def feature_004d(feature):
 		'students_reached','fulfillment_labor_materials'
  	]
 	return feature[['projectid']+columns],{ c:1 for c in columns }
+def feature_004d_1(feature):
+	mapping = {
+			'poverty_level' : {'highest poverty':1, 'high poverty':2, 'moderate poverty':3, 'low poverty':4 },
+			'grade_level' : { 'Grades PreK-2':1, 'Grades 3-5':2, 'Grades 6-8':3, 'Grades 9-12':4   },
+	}
+	data = pd.DataFrame(feature['projectid'])
+	dimensions = {}
+	for c in mapping :
+		after = '%s@004d_1'%(c)
+		data[after] = feature[c].map(mapping[c]).fillna(-1)
+		dimensions[after] = 1
+	return data,dimensions
 
 def feature_005(feature,atleast=100):
 	columns = ['teacher_acctid','schoolid','school_city','school_district']
@@ -372,11 +384,30 @@ def tfidf_encoder(filename,columns,max_df,min_df,max_features):
 		data[c_name] = map(lambda x:{ k:x[0,k] for k in x.nonzero()[1] },vector)
 		dimensions[c_name] = vector.shape[1]
 	return data,dimensions
+def tfidf_encoder_001(filename,columns,max_df,min_df,max_features):
+	'''
+		make tfidf vectors and state for gbdt
+		return id => { num_words,sum_tfidf } for every column
+	'''
+	df = utils.read_csv(filename)
+	data = pd.DataFrame(df.projectid)
+	dimensions = {}
+	for c in columns :
+		texts = df[c].fillna('')
+		model  = TfidfVectorizer(max_df=max_df,min_df=min_df,max_features=max_features)
+		model.fit(texts)
+		vector = model.transform(texts)
+		stats = [ '%s@%s'%(s,c) for s in ['#words','sum_tfidf'] ]
+		data[stats[0]] = [ vector[i].nonzero()[0].shape[0] for i in range(vector.shape[0]) ]
+		data[stats[1]] = vector.sum(1)
+		dimensions.update({ s:1 for s in stats })
+	return data,dimensions
 
 def feature_009(feature,max_df=0.5,min_df=100,max_features=5000):
 	''' @return id => title vector of essays.csv '''
 	return tfidf_encoder('essay.csv',['title','short_description','need_statement'],max_df,min_df,max_features)
-
+def feature_009d(feature,columns=['title'],max_df=0.5,min_df=10,max_features=5000):
+	return tfidf_encoder_001('essay.csv',columns,max_df,min_df,max_features)
 
 @decorators.disk_cached(utils.CACHE_DIR+'/feature_020')
 def _feature_020():
