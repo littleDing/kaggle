@@ -135,7 +135,7 @@ def sparse_encoder_003(feature,columns,atleast,target_columns=['is_exciting']):
 
 def prepare_data(filename,columns,target_columns=['is_exciting'],fillna=0):
 	feature = utils.read_csv(filename)
-	if filename != 'projects.csv':
+	if filename != 'projects.csv' :
 		pids = utils.read_csv('projects.csv')[['projectid','date_posted']]
 		feature = pd.merge(pids,feature,how='left')
 	data = feature[['projectid','date_posted']+columns]
@@ -156,14 +156,23 @@ def filter_values(data,c,atleast):
 	mapping = { v:i+1 for i,v in enumerate(uniques) }
 	data[c] = data[c].map(mapping).fillna(0)
 
-def handle_column(data,c,target_columns,atleast,latest,tag,fillna=None):
-	'''
-	@return v,date => pos%
-	'''
-	filter_values(data,c,atleast)
-	part = data[[c,'date_posted']+target_columns]
-	# state positive rate,cnts
-	if latest ==None :
+def transformer(c,target_columns,latest,fillna):
+	if latest != None:
+		if fillna == None:
+			def transform(x):
+				x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
+				x = x.sort('date_posted')
+				x[target_columns] = pd.rolling_mean(x[target_columns],latest,min_periods=0).shift(1)
+				x = x.fillna(0)
+				return x[target_columns+['date_posted']]
+		else :
+			def transform(x):
+				x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
+				x = x.sort('date_posted')
+				x[target_columns] = pd.rolling_mean(x[target_columns],latest,min_periods=0).shift(1)
+				x = x.fillna(method=fillna).fillna(0)
+				return x[target_columns+['date_posted']]
+	else :
 		cnt = 'cnt@%s'%(c,)
 		if fillna == None:
 			def transform(x):
@@ -183,27 +192,58 @@ def handle_column(data,c,target_columns,atleast,latest,tag,fillna=None):
 				x.loc[nans,cnt] = x[target_columns[0]][nans]
 				x = x.fillna(method=fillna).fillna(0)
 				return x[target_columns+[cnt,'date_posted']]
-	else :
-		if fillna == None:
-			def transform(x):
-				x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
-				x = x.sort('date_posted')
-				x[target_columns] = pd.rolling_mean(x[target_columns],latest,min_periods=0).shift(1)
-				x = x.fillna(0)
-				return x[target_columns+['date_posted']]
-		else :
-			def transform(x):
-				x = x.groupby('date_posted').sum().reset_index()[['date_posted']+target_columns]
-				x = x.sort('date_posted')
-				x[target_columns] = pd.rolling_mean(x[target_columns],latest,min_periods=0).shift(1)
-				x = x.fillna(method=fillna).fillna(0)
-				return x[target_columns+['date_posted']]
+
+	return transform
+
+def handle_column(data,c,target_columns,atleast,latest,tag,fillna=None):
+	'''
+	@return v,date => pos%
+	'''
+	filter_values(data,c,atleast)
+	part = data[[c,'date_posted']+target_columns]
+	# state positive rate,cnts
+	transform = transformer(c,target_columns,latest,fillna)
+
 	stats = part.groupby(c).apply(transform)
 	stats = stats.reset_index().rename(columns={ t:'%s@%s.%s.%s'%(t,c,tag,latest) for t in target_columns })
 	name_columns = [ '%s@%s.%s.%s'%(t,c,tag,latest) for t in target_columns ]
 	if latest == None: name_columns = name_columns + ['cnt@%s'%(c,)]
 	logging.info('%s shape of stats=%s'%(c,stats.shape,))
 	
+	stats = stats[[c,'date_posted']+name_columns]
+	data  = pd.merge(data,stats,how='left',on=[c,'date_posted']).fillna(0)
+	return data,name_columns
+
+def transformer_1(c,target_columns,latest=None,circle=None):
+	if latest != None :
+		pass
+	elif circle != None :
+		pass
+	else :
+		cnt = 'cnt@%s'%(c,)
+		def transform(x):
+			x[cnt] = 1
+			x = x.groupby('date_posted').sum().reset_index()[['date_posted',cnt]+target_columns]
+			x = x.sort('date_posted')
+			x[cnt] = x[cnt].cumsum()+1
+			x[target_columns] = (x[target_columns].cumsum().div(x[cnt],axis='index')).shift(1)
+			nans = x[target_columns[0]].isnull()
+			x.loc[nans,cnt] = x[target_columns[0]][nans]
+			x = x.fillna(method='pad').fillna(0)
+			return x[target_columns+[cnt,'date_posted']]
+	return transform
+
+def handle_column_1(data,c,target_columns,atleast,latest,circle,tag):
+	''' @return v,date => pos% '''
+	filter_values(data,c,atleast)
+	part = data[[c,'date_posted']+target_columns]
+	# state positive rate,cnts
+	transform = transformer_1(c,target_columns,latest,circle)
+	stats = part.groupby(c).apply(transform)
+	stats = stats.reset_index().rename(columns={ t:'%s@%s.%s.%s'%(t,c,tag,latest) for t in target_columns })
+	name_columns = [ '%s@%s.%s.%s'%(t,c,tag,latest) for t in target_columns ]
+	if latest == None: name_columns = name_columns + ['cnt@%s'%(c,)]
+	logging.info('%s shape of stats=%s'%(c,stats.shape,))
 	stats = stats[[c,'date_posted']+name_columns]
 	data  = pd.merge(data,stats,how='left',on=[c,'date_posted']).fillna(0)
 	return data,name_columns
@@ -221,6 +261,20 @@ def sparse_encoder_004(filename,columns,atleast=0,target_columns=['is_exciting']
 		data,name_columns = handle_column(data,c,target_columns,atleast,latest,'se004',groupby_na)
 		dimensions.update({ t:1 for t in name_columns })
 		logging.info('sparse_encoder_004 stats on %s ready, data shape=%s'%(c,data.shape))
+	return data[['projectid']+dimensions.keys()],dimensions
+
+@decorators.disk_cached(utils.CACHE_DIR+'/sparse_encoder_004_1') 
+def sparse_encoder_004_1(filename,columns,atleast=0,target_columns=['is_exciting'],latest=None,circle=None):
+	'''
+	@return id=> pos%,cnt in the PAST of discrete values,date
+	'''
+	data = prepare_data(filename,columns,target_columns,None)
+	logging.info('sparse_encoder_004_1 outcomes joined, data shape=%s'%(data.shape,))
+	dimensions = {}
+	for c in columns:
+		data,name_columns = handle_column_1(data,c,target_columns,atleast,latest,circle,'se004_1')
+		dimensions.update({ t:1 for t in name_columns })
+		logging.info('sparse_encoder_004_1 stats on %s ready, data shape=%s'%(c,data.shape))
 	return data[['projectid']+dimensions.keys()],dimensions
 
 @decorators.disk_cached(utils.CACHE_DIR+'/sparse_encoder_005') 
@@ -338,6 +392,12 @@ def feature_007dtna(feature,target_columns=['is_exciting'],atleast=0,fillna='pad
 	if include_all :
 		columns = columns + ['school_zip','school_ncesid']
 	return sparse_encoder_004('projects.csv',columns,atleast,target_columns,None,None,fillna)
+def feature_007dtna_1(feature,target_columns=['is_exciting'],atleast=0,include_all=False):
+	''' @return id=> pos% of discrete features'''
+	columns = project_id_columns_small_first
+	if include_all :
+		columns = columns + ['school_zip','school_ncesid']
+	return sparse_encoder_004_1('projects.csv',columns,atleast,target_columns)
 
 def feature_007dtw(feature,target_columns=['is_exciting'],atleast=0,latest=None,include_all=True):
 	''' @return id=> pos% of discrete features'''
@@ -403,11 +463,29 @@ def tfidf_encoder_001(filename,columns,max_df,min_df,max_features):
 		dimensions.update({ s:1 for s in stats })
 	return data,dimensions
 
+@decorators.disk_cached(utils.CACHE_DIR+'/tfidf_encoder_002')
+def tfidf_encoder_002(filename,columns,target_columns,max_df,min_df,max_features):
+	'''
+		state positive rate on words and sum with tfidf weight
+		return id => { mean(pos_rate),sum(tfidf*pos_rate)/sum(tfidf) }
+	'''
+	df = prepare_data(filename,columns,target_columns,None)
+	data = pd.DataFrame(df.projectid)
+	dimensions = {}
+	for c in columns :
+		texts = df[c].fillna('')
+		model = TfidfVectorizer(max_df=max_df,min_df=min_df,max_features=max_features)
+		model.fit(texts)
+		vector = model.transform(texts)
+		data['tfidf@%s'%c] = [ { c:v[0,c] for c in v.nonzero()[1] } for v in vector ]
+		def transformer(x):
+			pass
+
 def feature_009(feature,max_df=0.5,min_df=100,max_features=5000):
 	''' @return id => title vector of essays.csv '''
-	return tfidf_encoder('essay.csv',['title','short_description','need_statement'],max_df,min_df,max_features)
+	return tfidf_encoder('essays.csv',['title','short_description','need_statement'],max_df,min_df,max_features)
 def feature_009d(feature,columns=['title'],max_df=0.5,min_df=10,max_features=5000):
-	return tfidf_encoder_001('essay.csv',columns,max_df,min_df,max_features)
+	return tfidf_encoder_001('essays.csv',columns,max_df,min_df,max_features)
 
 @decorators.disk_cached(utils.CACHE_DIR+'/feature_020')
 def _feature_020():
