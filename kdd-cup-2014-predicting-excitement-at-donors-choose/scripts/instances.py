@@ -328,6 +328,7 @@ def sparse_encoder_006(filename,columns,atleast=0,recents=[],recent_days=[]):
 		cnt = 'cnt_all@%s'%c
 		def transform(x):
 			x[cnt] = 1
+			x = x[[cnt,'date_posted']]
 			ans = x.groupby('date_posted').sum().reset_index()
 			for w in recents:
 				ans['cnt_r%d@%s'%(w,c)] = pd.rolling_mean(ans[cnt],w,0)
@@ -337,10 +338,12 @@ def sparse_encoder_006(filename,columns,atleast=0,recents=[],recent_days=[]):
 			ans[cnt] = ans[cnt].cumsum()
 			return ans
 		stats = part.groupby(c).apply(transform)
-		name_columns = stats.columns
+		name_columns = [ cc for cc in stats.columns if cc !='level_1' ]
 		stats = stats.reset_index()
+		stats = stats[[c]+name_columns]
 		logging.info('%s shape of stats=%s'%(c,stats.shape,))
-		stats = stats[[c,'date_posted']+name_columns]
+		logging.info('%s'%(stats[:5]))
+		logging.info('%s'%(data[:5]))
 		data  = pd.merge(data,stats,how='left',on=[c,'date_posted']).fillna(0)
 
 		dimensions.update({ t:1 for t in name_columns })
@@ -465,10 +468,10 @@ def feature_007dtwna_1(feature,target_columns=['is_exciting'],atleast=0,latest=N
 	if include_all : columns += ['school_zip','school_ncesid']
 	return sparse_encoder_004_1('projects.csv',columns,atleast,target_columns,latest)
 
-def feature_017(feature,atleast,recents=[],recent_days=[],latest=0):
+def feature_017(feature,recents=[],recent_days=[],atleast=0):
 	''' @return id=> active counts '''
 	columns = project_id_columns_small_first
-	return sparse_encoder_006('projects.csv',columns,atleast,recents,recent_columns)
+	return sparse_encoder_006('projects.csv',columns,atleast,recents,recent_days)
 
 def feature_008(feature,dim=40,step=0.2):
 	''' @return id => sparse encoded text lengths in essays.csv '''
