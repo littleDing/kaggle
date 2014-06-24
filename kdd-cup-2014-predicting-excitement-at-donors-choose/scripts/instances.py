@@ -363,39 +363,40 @@ def sparse_encoder_006(filename,columns,atleast=0,recents=[],recent_days=[]):
 	return data[['projectid']+dimensions.keys()],dimensions
 
 @decorators.disk_cached(utils.CACHE_DIR+'/sparse_encoder_007') 
-def sparse_encoder_007(filename,columns,target_columns,atleast=0,recents=[],recent_days=[]):
+def sparse_encoder_007(filename,columns,target_columns,atleast=0,latests=None):
 	'''
 	@return id=> positive_rate of discrete values,date
 	'''
-	data = prepare_data(filename,columns,[],None)
-	logging.info('sparse_encoder_006 outcomes joined, data shape=%s'%(data.shape,))
+	data = prepare_data(filename,columns,target_columns,None)
+	logging.info('sparse_encoder_007 outcomes joined, data shape=%s'%(data.shape,))
 	dimensions = {}
+	shift,window = latests
+	cnt,tc = 'cnt_all',target_columns
 	for c in columns:
 		filter_values(data,c,atleast)
-		part = data[[c,'date_posted']]
+		part = data[[c,'date_posted']+tc]
 		# state positive rate,cnts
-		cnt = 'cnt_all@%s'%c
 		def transform(x):
 			x[cnt] = 1
-			x = x[[cnt,'date_posted']]
-			ans = x.groupby('date_posted').sum().reset_index()
-			for w in recents:
-				ans['cnt_r%d@%s'%(w,c)] = pd.rolling_mean(ans[cnt],w,0)
-			for w in recent_days :
-				future = pd.to_datetime(ans.date_posted) + datetime.timedelta(w)
-				ans['cnt_rd%d@%s'%(w,c)] = [ ans[:i][future[:i]>=d][cnt].sum() for i,d in enumerate(ans.date_posted)  ]
-			ans[cnt] = ans[cnt].cumsum()
-			return ans
+			x = x.groupby('date_posted').sum().reset_index()
+			x = x.sort('date_posted')
+			future = pd.to_datetime(x.date_posted) + datetime.timedelta(window)
+			x[tc+[cnt]] = pd.DataFrame([ x[:i][future[:i]>=d][tc+[cnt]].sum() for i,d in enumerate(future) ])
+			x[tc] = x[tc].div(x[cnt],axis='index')
+			x[tc+[cnt]] = x[tc+[cnt]].shift(window).fillna(method='pad').fillna(0)
+			return x[tc+[cnt,'date_posted']]
 		stats = part.groupby(c).apply(transform)
 		name_columns = [ cc for cc in stats.columns if cc !='level_1' and cc != 'date_posted' ]
+		stats = stats.rename(columns={ cc:'%s@%s.s%s.w%s.se007'%(cc,c,shift,window)  for cc in name_columns })
+		name_columns = [ '%s@%s.s%s.w%s.se007'%(cc,c,shift,window)  for cc in name_columns ]
 		stats = stats.reset_index()
+		logging.info(stats.columns)
 		stats = stats[[c,'date_posted']+name_columns]
 		data  = pd.merge(data,stats,how='left',on=[c,'date_posted']).fillna(0)
 
 		dimensions.update({ t:1 for t in name_columns })
-		logging.info('sparse_encoder_006 stats on %s ready, data shape=%s'%(c,data.shape))
+		logging.info('sparse_encoder_007 stats on %s ready, data shape=%s'%(c,data.shape))
 	return data[['projectid']+dimensions.keys()],dimensions
-
 
 def feature_004(feature,dim=40,step=0.2):
 	columns = [
@@ -514,6 +515,9 @@ def feature_007dtwna_1(feature,target_columns=['is_exciting'],atleast=0,latest=N
 	columns = project_id_columns
 	if include_all : columns += ['school_zip','school_ncesid']
 	return sparse_encoder_004_1('projects.csv',columns,atleast,target_columns,latest)
+def feature_007dtw_2(feature,target_columns=['is_exciting'],atleast=0,latest=(1,10)):
+	columns = project_id_columns_small_first
+	return sparse_encoder_007('projects.csv',columns,target_columns,atleast,latest)
 
 def feature_017(feature,recents=[],recent_days=[],atleast=0):
 	''' @return id=> active counts '''
