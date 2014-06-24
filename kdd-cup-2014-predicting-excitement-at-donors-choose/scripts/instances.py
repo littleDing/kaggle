@@ -226,6 +226,7 @@ def transformer_1(c,target_columns,latest=None,circle=None,latest_days=None):
 				x[target_columns] = x[target_columns].shift(1+shift)
 				x = x.reset_index()
 				x = x.fillna(method='pad').fillna(0)
+				return x[target_columns+['date_posted']]
 		else:
 			def transform(x):
 				x = x[['date_posted']+target_columns].sort('date_posted')
@@ -239,14 +240,15 @@ def transformer_1(c,target_columns,latest=None,circle=None,latest_days=None):
 		pass
 	elif latest_days != None:
 		if type(latest_days) == tuple:
-			pass
+			shift,window = latest_days
 		else :
-			def transform(x):
-				x[cnt] = 1
-				x = x.groupby('date_posted').sum().reset_index()[['date_posted',cnt]+target_columns]
-				x['future'] = pd.to_datetime(x.date_posted)+datetime.timedelta(latest_days)
-				for i in xrange(x.shape[0]):
-					x[target_columns] = None
+			shift,window = 0,latest_days
+		def transform(x):
+			x[cnt] = 1
+			x = x.groupby('date_posted').sum().reset_index()[['date_posted',cnt]+target_columns]
+			x['future'] = pd.to_datetime(x.date_posted)+datetime.timedelta(windows)
+			for i in xrange(x.shape[0]):
+				x[target_columns] = None
 	else :
 		def transform(x):
 			x[cnt] = 1
@@ -687,6 +689,23 @@ def make_dense_instance(versions=[]):
 
 	return train_X,train_Y,train_ID,test_X,test_ID 
 
+@decorators.disk_cached(utils.CACHE_DIR+'/dense_features_raw')
+def make_dense_instance_raw(versions=[]):
+	'''
+	@return  
+	'''
+	feature = pd.read_csv(os.path.join(utils.DATA_DIR,'projects.csv'),true_values='t',false_values='f')
+	IDNames = ['projectid']
+	ID_DATE = feature[['projectid','date_posted']]
+
+	X,columns = collect_features(feature,versions,IDNames)
+
+	X_Date = pd.merge(X,ID_DATE)
+	outcomes = pd.read_csv(os.path.join(utils.DATA_DIR,'outcomes.csv'))
+	X_Date = pd.merge(X_Date,outcomes[['projectid','is_exciting']],how='left').fillna(0)
+	X_Date = X_Date.sort(['date_posted','projectid'])
+	X_Date.index = range(X_Date.shape[0])
+	return X_Date
 
 @decorators.disk_cached(utils.CACHE_DIR+'/sparse_features')
 def make_sparse_instance(versions=[],combination=0):
