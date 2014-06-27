@@ -643,6 +643,18 @@ def feature_021(feature,target_columns=['is_exciting'],atleast=0):
 	columns = ['vendorid','project_resource_type']
 	return sparse_encoder_005('resources.csv',columns,atleast,target_columns)
 
+target_columns_all = [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']
+
+def feature_030_1(feature,atleast=0):
+	''' @return id => pos_rate of Title '''
+	columns = [u'title', u'short_description', u'need_statement', u'essay']
+	return sparse_encoder_004_1('essays.csv',columns,atleast,target_columns_all)	
+
+def feature_030_2(feature,atleast=0,recents=[],recent_days=[]):
+	''' @return id => active count of Title '''
+	columns = [u'title', u'short_description', u'need_statement', u'essay']
+	return sparse_encoder_006('essays.csv',columns,atleast,recents,recent_days)
+
 def nonlinear_001(x):
 	return x**2
 def nonlinear_002(x):
@@ -666,7 +678,7 @@ def collect_features(feature,versions=[],IDNames=[]):
 	return X,columns
 
 @decorators.disk_cached(utils.CACHE_DIR+'/dense_features')
-def make_dense_instance(versions=[]):
+def make_dense_instance(versions=[],train_dates=None,test_dates=None):
 	'''
 	@return train_X,train_Y,train_ID,test_X,test_ID 
 	'''
@@ -683,13 +695,20 @@ def make_dense_instance(versions=[]):
 	X_Date.index = range(X_Date.shape[0])
 	
 	X = np.array(X_Date[columns.keys()])
+	if train_dates==None: train_dates = '1900-01-01','2014-01-01'
+	train_from,train_to = train_dates
+	if test_dates==None: test_dates = '2014-01-01','2015-12-31'
+	test_from,test_to = test_dates
 	# spilt train/test set
-	train_X 	= X[  [ i  for i,t in enumerate(X_Date['date_posted'] <  '2014-01-01') if t ] ]
-	train_Y 	= (X_Date[ X_Date['date_posted'] <  '2014-01-01' ]['is_exciting']=='t' ) + 0
+	train_idx 	= (train_from <= X_Date['date_posted']) & ( X_Date['date_posted'] <train_to )
+	test_idx 	= (test_from <= X_Date['date_posted']) & ( X_Date['date_posted'] <test_to )
+	
+	train_X 	= X[  [ i  for i,t in enumerate(train_idx) if t ] ]
+	train_Y 	= (X_Date[ train_idx ]['is_exciting']=='t' ) + 0
 	train_Y.index = range(len(train_Y))
-	test_X 		= X[ [ i  for i,t in enumerate(X_Date['date_posted'] >=  '2014-01-01') if t ]  ]
-	train_ID 	= X_Date[ X_Date['date_posted'] <  '2014-01-01' ]['projectid']
-	test_ID 	= X_Date[ X_Date['date_posted'] >= '2014-01-01' ]['projectid']
+	test_X 		= X[ [ i  for i,t in enumerate(test_idx) if t ]  ]
+	train_ID 	= X_Date[ train_idx ]['projectid']
+	test_ID 	= X_Date[ test_idx  ]['projectid']
 
 	return train_X,train_Y,train_ID,test_X,test_ID 
 
@@ -710,6 +729,10 @@ def make_dense_instance_raw(versions=[]):
 	X_Date = X_Date.sort(['date_posted','projectid'])
 	X_Date.index = range(X_Date.shape[0])
 	return X_Date
+
+def dense_instance_to_csv(versions,path):
+	data = make_dense_instance_raw(versions)
+	data.to_csv(path,index=False)
 
 @decorators.disk_cached(utils.CACHE_DIR+'/sparse_features')
 def make_sparse_instance(versions=[],combination=0):

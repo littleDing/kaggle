@@ -17,6 +17,8 @@ All configs are in configs.json
 
 Besides, raw csv data files should be put under ./datas
 
+An summarization of current active feature list could be found in ./scripts/feature\_list.txt
+
 Running
 ----------------
 Basicly, running parameters can be selected in solutions@solutions.py
@@ -24,7 +26,11 @@ Run with command "python solutions.py dense5", where dense5 is one of the runnin
 
 Integrating
 ----------------
-2 ways to integrate with other models or features:
+3 ways to integrate with other models or features:
 - write feature\_XXX like others in instances.py, add new feature in solutions and run it
 - call instances.make\_dense\_instance\_raw where a DataFrame will be returned with projectid, feature and label
+- call instances.dense\_instance\_to\_csv to write DataFrame to a csv file
 
+Warning
+----------------
+- There cache files in ./caches, their meta data are stored in ./scripts/path\_mapping.cPickle, if you copy cache files from another workspace, remember to copy the meta file as well.
