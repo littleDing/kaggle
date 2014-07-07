@@ -33,7 +33,7 @@ def solution(cross_validation=None,
 		model = modelFactory()							
 		model.fit(train_x,train_y) 						
 		train_yy = model.predict_proba(train_x)[:,1] 	
-		train_auc = roc_auc_score(train_y,train_yy)		
+		train_auc = roc_auc_score(list(train_y),train_yy)		
 
 		test_yy = model.predict_proba(test_x)[:,1]
 		return test_yy,train_auc
@@ -66,7 +66,7 @@ def solution(cross_validation=None,
 				continue
 
 			test_yy,train_auc = _train_test(train_x,train_y,test_x)
-			test_auc = roc_auc_score(test_y,test_yy)
+			test_auc = roc_auc_score(list(test_y),test_yy)
 			aucs.append( (train_auc,test_auc) )
 			logging.info('%d fold finished #ins=%s,%s auc=%s,%s'%(i,len(train_y),len(test_y),train_auc,test_auc))
 			
@@ -155,11 +155,11 @@ solutions = {
 		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':400,'nthread':7,'objective':'rank:pairwise',
 			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.1}), 
 		'feature' : [ ('002',),('004d',),('004d_1',),('006d',),('008d',),('020',),('021',),
-			('050',[ ('001',),('002',),('003',),('004a',)],),
-			('050',[ ('001',),('002',),('003',),('004a',),('005',10)],),
-			('050',[ ('001',),('002',),('003',),('004a',),('005',10),('006',)],),
-			('050',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',)],),
-			('050',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',),('009',)],),
+			#('050h',[ ('001',),('002',),('003',),('004a',)],),
+			#('050h',[ ('001',),('002',),('003',),('004a',),('005',10)],),
+			#('050h',[ ('001',),('002',),('003',),('004a',),('005',10),('006',)],),
+			#('050h',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',)],),
+			#('050h',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',),('009',)],),
 			('040h','essay'),('040h','need_statement'),('040h','short_description'),('040h','title'),
 			('017',[10],[90,180,360]),
 			('030_1',10),('030_2',10,[10],[90,180,360]),

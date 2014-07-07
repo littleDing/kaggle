@@ -725,7 +725,7 @@ def make_score_hold(factory,seasons,score_name):
 def lr_tfidf_hold(field,max_df=0.5,min_df=2,max_features=5000):
 	factory = lambda : to_tfidf_vector(field)
 	score_name = 'score.hold@%s'%field
-	return make_score_hold(factory,12,score_name)
+	return make_score_hold(factory,1,score_name)
 
 def feature_040h(feature,field):
 	'''
