@@ -7,6 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import GradientBoostingRegressor
 import sklearn.metrics
 from sklearn.cross_validation import KFold
+from sklearn import linear_model
 
 import utils,decorators
 
@@ -654,6 +655,42 @@ def feature_030_2(feature,atleast=0,recents=[],recent_days=[]):
 	''' @return id => active count of Title '''
 	columns = [u'title', u'short_description', u'need_statement', u'essay']
 	return sparse_encoder_006('essays.csv',columns,atleast,recents,recent_days)
+
+@decorators.disk_cached(utils.CACHE_DIR+'/tfidf_vector')
+def to_tfidf_vector(field,max_df=0.5,min_df=2,max_features=5000):
+	'''
+	@return train_vectors,train_ids,targets,test_vectors,test_ids
+	'''
+	df = utils.read_csv('essays.csv')
+	outcomes = utils.read_csv('outcomes.csv')[['projectid','is_exciting']]
+	df = pd.merge(df,outcomes,how='left')
+	texts = df[field].fillna('')
+	model  = TfidfVectorizer(max_df=max_df,min_df=min_df,max_features=max_features)
+	model.fit(texts)
+	train_idx,test_idx = df.is_exciting.notnull(),df.is_exciting.isnull()
+
+	train_texts = texts[train_idx]
+	test_texts	= texts[test_idx]
+	train_ids   = df.projectid[train_idx]
+	test_ids 	= df.projectid[test_idx]
+	targets		= df.is_exciting[train_idx]
+	train_vector = model.transform(train_texts)
+	test_vector = model.transform(test_texts)
+	return train_vector,train_ids,targets,test_vector,test_ids
+
+@decorators.disk_cached(utils.CACHE_DIR+'/lr_tfidf')
+def lr_tfidf(field,max_df=0.5,min_df=2,max_features=5000):
+	train_vector,train_ids,targets,test_vector,test_ids = to_tfidf_vector(field)
+	model = linear_model.LogisticRegression()
+	model.fit(train_vector,targets)
+	train_yy = model.predict_proba(train_vector)[:,1]
+	test_yy = model.predict_proba(test_vector)[:,1]
+	return pd.DataFrame({'projectid':list(train_ids)+list(test_ids),'score@%s'%field:list(train_yy)+list(test_yy)})
+def feature_040(feature,field):
+	'''
+	@return id=> prediction by logistic regression using tfidf text fields
+	'''
+	return lr_tfidf(field),{'score@%s'%field:1}
 
 def nonlinear_001(x):
 	return x**2

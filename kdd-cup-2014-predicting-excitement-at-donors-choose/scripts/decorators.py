@@ -24,7 +24,7 @@ def try_get_path(path):
 	if filename not in db :
 		db[filename] = str(len(db))+'.cPickle'
 		with open(db_path,'w') as fout :
-			cPickle.dump(db,fout) 
+			pickle.dump(db,fout) 
 	filename =  db[filename]
 	return os.path.join(dirname,filename)
 
@@ -45,7 +45,7 @@ def disk_cached(prefix):
 				logging.info('pickle not exists : %s'%(path))
 				value = func(*args,**karg)
 				with open(path,'w') as fout:
-					pickle.dump(value,fout)
+					cPickle.dump(value,fout)
 				logging.info('pickle written : %s'%(path))
 			return value
 		return _func
