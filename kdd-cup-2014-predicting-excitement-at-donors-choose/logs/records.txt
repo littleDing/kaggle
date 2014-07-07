@@ -1,0 +1,532 @@
+===============2014-06-26===============
+aucs=[(0.77097732407174158, 0.6541897740682604), (0.787544794768409, 0.691748050551655), (0.78867770239468904, 0.69964683803929173)]
+{'train_dates': ('2010-01-01', '2014-01-01'), 'modelFactory': ('models.XGB', {'bst:max_depth': 5, 'objective': 'rank:pairwise', 'bst:subsample': 1, 'eval_metric': 'auc', 'num_round': 400, 'nthread': 6, 'bst:eta': 0.1, 'bst:min_child_weight': 2000}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('030_1', 10), ('030_2', 10, [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtna_1', ['total_price_excluding_optional_support', 'total_price_including_optional_support', 'students_reached', 'fulfillment_labor_materials'])], 'version': 'dense5', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(439599, 439) train_y=(439599,)(+0.0835079242673%) test_x=(44772, 439)
+2014-06-27 20:52:30,959 => 2014-06-27 21:20:42,341 28.2
+
+aucs=[(0.76979655945095216, 0.70494470788037789), (0.78636300052337227, 0.693346548583328), (0.78754698291064329, 0.69798383042803647)]
+{'train_dates': ('2010-01-01', '2014-01-01'), 'modelFactory': ('models.XGB', {'bst:max_depth': 5, 'objective': 'rank:pairwise', 'bst:subsample': 1, 'eval_metric': 'auc', 'num_round': 400, 'nthread': 6, 'bst:eta': 0.1, 'bst:min_child_weight': 2000}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('030_1', 10), ('030_2', 10, [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw_2', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, (30, 30))], 'version': 'dense5', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(439599, 544) train_y=(439599,)(+0.0835079242673%) test_x=(44772, 544)
+2014-06-26 15:02:53,889 => 2014-06-26 15:25:05,931 22.2
+
+aucs=[(0.76979655945095216, 0.70494470788037789), (0.78636300052337227, 0.693346548583328), (0.78754698291064329, 0.69798383042803647)]
+{'train_dates': ('2010-01-01', '2014-01-01'), 'modelFactory': ('models.XGB', {'bst:max_depth': 5, 'objective': 'rank:pairwise', 'bst:subsample': 1, 'eval_metric': 'auc', 'num_round': 400, 'nthread': 6, 'bst:eta': 0.1, 'bst:min_child_weight': 2000}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('030_1', 10), ('030_2', 10, [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'version': 'dense5', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(439599, 364) train_y=(439599,)(+0.0835079242673%) test_x=(44772, 364)
+2014-06-26 11:07:59,368 => 2014-06-26 11:36:21,814 28.3667
+
+0.65079
+aucs=[(0.76893506717424964, 0.70325495037654506), (0.78558290554182209, 0.69503917721257136), (0.78720749370046894, 0.69973112551903016)]
+{'train_dates': ('2010-01-01', '2014-01-01'), 'modelFactory': ('models.XGB', {'bst:max_depth': 5, 'objective': 'rank:pairwise', 'bst:subsample': 1, 'eval_metric': 'auc', 'num_round': 400, 'nthread': 6, 'bst:eta': 0.1, 'bst:min_child_weight': 2000}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'version': 'dense5', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(439599, 296) train_y=(439599,)(+0.0835079242673%) test_x=(44772, 296)
+2014-06-26 02:29:50,411 => 2014-06-26 03:14:42,379 44.8667
+
+===============2014-06-25===============
+aucs=[(0.74950260324591833, 0.64681104973673853), (0.76701590057463964, 0.69064026235482234), (0.76868007748763478, 0.69148393964747024)]
+{'train_dates': ('2010-01-01', '2014-01-01'), 'modelFactory': ('models.XGB', {'bst:max_depth': 5, 'objective': 'rank:pairwise', 'bst:subsample': 1, 'eval_metric': 'auc', 'num_round': 200, 'nthread': 6, 'bst:eta': 0.1, 'bst:min_child_weight': 2000}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'version': 'dense5', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(439599, 221) train_y=(439599,)(+0.0835079242673%) test_x=(44772, 221)
+2014-06-25 22:34:26,709 => 2014-06-25 22:44:04,545 9.63333
+
+aucs=[(0.75564397816828677, 0.66812295751185447), (0.77236155845856058, 0.69284514225838312), (0.77373456137504759, 0.69460051277490276)]
+{'train_dates': ('2010-01-01', '2014-01-01'), 'modelFactory': ('models.XGB', {'bst:max_depth': 5, 'objective': 'rank:pairwise', 'bst:subsample': 1, 'eval_metric': 'auc', 'num_round': 200, 'nthread': 6, 'bst:eta': 0.1, 'bst:min_child_weight': 2000}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw_2', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, (30, 90))], 'version': 'dense5', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(439599, 476) train_y=(439599,)(+0.0835079242673%) test_x=(44772, 476)
+2014-06-25 18:45:03,945 => 2014-06-25 18:58:59,824 13.9333
+
+aucs=[(0.84198474753988639, 0.84687162092131441), (0.8573452804233197, 0.6807616458563035), (0.85545084819645245, 0.72211903997874627)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw_2', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, (30, 30))], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 476) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 476)
+2014-06-25 17:37:00,116 => 2014-06-25 18:03:35,410 26.5833
+
+aucs=[(0.83164206230696114, 0.84408150502921819), (0.84837563878295708, 0.67937449348700252), (0.84638808632959051, 0.71929025463650498)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 200, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw_2', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, (30, 90))], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 476) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 476)
+2014-06-25 17:04:54,792 => 2014-06-25 17:35:57,087 31.05
+
+aucs=[(0.84588692708066149, 0.84504313610122439), (0.86085557750921382, 0.68057235152380957), (0.85828426760377541, 0.72042814305027691)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 7, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 600, 'bst:min_child_weight': 2000, 'bst:eta': 0.08}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [30, 60, 90, 180, 270, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 341) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 341)
+2014-06-25 07:02:12,993 => 2014-06-25 07:42:44,132 40.5333
+
+aucs=[(0.84198474753988639, 0.84687162092131441), (0.85722949137530613, 0.68125151852622434), (0.85553727521566914, 0.72168049141894575)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw_2', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, (30, 90))], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 476) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 476)
+2014-06-25 07:07:28,981 => 2014-06-25 08:11:00,931 63.5333
+
+aucs=[(0.84266828225755641, 0.84444103989017949), (0.85809120441171105, 0.67946791106587734), (0.85577385101550718, 0.72012032179241536)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 7, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [30, 60, 90, 180, 270, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 341) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 341)
+2014-06-25 01:13:40,815 => 2014-06-25 01:42:44,571 29.0667
+
+0.65072
+aucs=[(0.84975342288446742, 0.84565110661399201), (0.86443896277829302, 0.67959623988977891), (0.86213080724614455, 0.723345574541847)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 600, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw_2', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, (30, 90))], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 476) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 476)
+2014-06-25 00:03:54,441 => 2014-06-25 01:08:31,456 64.6167
+
+===============2014-06-24===============
+aucs=[(0.83817485787220969, 0.84798119371885849), (0.85400393234723171, 0.67504893799879206), (0.85164508200102906, 0.7145722850121442)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw_2', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, (30, 90))], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 401) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 401)
+2014-06-24 21:43:23,349 => 2014-06-24 22:12:24,157 29.0167
+
+aucs=[(0.84058438086541332, 0.84336391373895148), (0.85621121451589688, 0.67520860365315161), (0.85442984938590572, 0.71163676532306153)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtwna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, (30, 10))], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 386) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 386)
+2014-06-24 18:55:17,321 => 2014-06-24 19:42:32,936 47.25
+
+0.65046
+aucs=[(0.84222148358294202, 0.84526476285938024), (0.85730955955145971, 0.68038571400346615), (0.85545084819645245, 0.72211903997874627)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 7, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('017', [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 296) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 296)
+2014-06-24 18:35:12,910 => 2014-06-24 19:01:50,842 26.6333
+
+aucs=[(0.84008157188290755, 0.84626603561161307), (0.85622999700886004, 0.67422410089739515), (0.85314488144385492, 0.7119418227902361)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtwna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, (90, 5))], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 386) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 386)
+2014-06-24 16:19:09,260 => 2014-06-24 16:57:50,477 38.6833
+
+0.63301
+aucs=[(0.84308668181596291, 0.84824183135972808), (0.8591610381937369, 0.68593461429023295), (0.8564914352714339, 0.72251348494146128)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtwna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 5, 5)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 386) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 386)
+2014-06-24 09:20:27,930 => 2014-06-24 10:04:51,297 44.4
+
+0.64468
+aucs=[(0.83858846869496528, 0.84487692096075928), (0.85424236351723459, 0.67653686288383363), (0.85198898552629354, 0.71502185621973424)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 7, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 800, 'bst:min_child_weight': 2000, 'bst:eta': 0.05}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 221) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 221)
+2014-06-24 07:32:22,244 => 2014-06-24 08:05:48,696 33.4333
+
+0.63978
+aucs=[(0.84146429686048851, 0.84829466065007941), (0.85742271341715948, 0.6790497751458755), (0.85509715499483296, 0.71649062566074029)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 7, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtwna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 10, 1, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 386) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 386)
+2014-06-24 01:28:43,673 => 2014-06-24 01:57:55,132 29.2
+
+0.64534
+aucs=[(0.83817485787220969, 0.84793155784079721), (0.85400393234723171, 0.67504893799879206), (0.85137068126490101, 0.7129640579419525)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 221) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 221)
+2014-06-24 01:07:30,255 => 2014-06-24 01:33:31,685 26.0167
+
+===============2014-06-23===============
+aucs=[(0.84040305175242336, 0.85136607280105614), (0.85603116087734787, 0.68425083915593354), (0.85415960212845643, 0.7115687955799963)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False), ('007dtwna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 10, 10, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 386) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 386)
+2014-06-23 14:33:17,526 => 2014-06-23 15:22:50,379 49.55
+
+0.63545
+aucs=[(0.83810748710143446, 0.84978054357952337), (0.85469483481434894, 0.68274998031108491), (0.8527243612855403, 0.70212091675524491)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('009d', ['title']), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False), ('007dtwna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 100, 100, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 388) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 388)
+2014-06-23 18:04:32,650 => 2014-06-23 18:45:57,628 41.4167
+
+aucs=[(0.84040305175242336, 0.85136607280105614), (0.85603116087734787, 0.68425083915593354), (0.85415960212845643, 0.7115687955799963)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False), ('007dtwna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 10, 10, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 386) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 386)
+2014-06-23 14:33:17,526 => 2014-06-23 15:22:50,379 49.55
+
+0.60440
+aucs=[(0.84033681268078686, 0.85293537869946889), (0.85630824622684698, 0.68461639786570239), (0.85432754804529676, 0.71078965695862262)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('009d', ['title']), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False), ('007dtwna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, 10, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 388) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 388)
+2014-06-23 14:29:36,573 => 2014-06-23 15:17:29,826 47.8833
+
+aucs=[(0.84033681268078686, 0.85293537869946889), (0.85630824622684698, 0.68461639786570239), (0.85432754804529676, 0.71078965695862262)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('009d', ['title']), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False), ('007dtwna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, 10, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 388) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 388)
+2014-06-23 14:29:36,573 => 2014-06-23 15:17:29,826 47.8833
+
+aucs=[(0.83744511795219279, 0.84917075952396071), (0.85287184081367107, 0.67994709437281486), (0.85105132658729377, 0.70638320882022332)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('009d', ['title']), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 223) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 223)
+2014-06-23 09:49:54,996 => 2014-06-23 10:26:50,639 36.9333
+
+aucs=[(0.8372227008432509, 0.84896082223189762), (0.85262582666230036, 0.67785969837803028), (0.85100547233176294, 0.70594275812206508)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 221) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 221)
+2014-06-23 09:09:37,955 => 2014-06-23 09:40:42,934 31.0833
+
+aucs=[(0.83912271720269482, 0.8488816965708722), (0.85423147252384035, 0.67946080176423429), (0.85312983723530911, 0.70734290426482316)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 7, 'bst:max_depth': 6, 'objective': 'rank:pairwise', 'num_round': 600, 'bst:min_child_weight': 2000, 'bst:eta': 0.05}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 219) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 219)
+2014-06-23 07:08:56,851 => 2014-06-23 07:44:06,133 35.1667
+
+aucs=[(0.83397643871702221, 0.84828760360307931), (0.85001234207991461, 0.67544507122308395), (0.84789164881425549, 0.69560744560024956)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 5, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 219) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 219)
+2014-06-23 07:21:57,592 => 2014-06-23 07:58:54,871 36.95
+
+aucs=[(0.83707739325927066, 0.84792769420606839), (0.85273104688381496, 0.67938635738113795), (0.85101251104193132, 0.70685090399209261)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 7, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 800, 'bst:min_child_weight': 2000, 'bst:eta': 0.05}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 219) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 219)
+2014-06-23 00:36:51,220 => 2014-06-23 01:18:25,480 41.5667
+
+0.62873
+aucs=[(0.83008894956596524, 0.84904325957986526), (0.84700283829823753, 0.67082859339890466), (0.84517825841111016, 0.6880296711468995)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 10, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 219) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 219)
+2014-06-23 00:50:56,487 => 2014-06-23 01:16:29,225 25.55
+
+
+===============2014-06-22===============
+0.63602
+aucs=[(0.83701347993138719, 0.84906612598911124), (0.85303086707163767, 0.67704022854523327), (0.850821078572778, 0.7052025336742791)]
+{'version': 'dense6', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 7, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 'pad', False)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 219) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 219)
+2014-06-22 22:14:56,131 => 2014-06-22 22:57:48,080 42.8667
+
+aucs=[(0.83989840462258092, 0.84862161087782451), (0.85540230498156389, 0.67802590018539355), (0.85412705873994543, 0.70604177661542333)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 0.8, 'nthread': 7, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 600, 'bst:min_child_weight': 2000, 'bst:eta': 0.08}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 243) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 243)
+2014-06-22 19:44:34,154 => 2014-06-22 20:19:36,194 35.0333
+
+aucs=[(0.8404091896526471, 0.84798868443909625), (0.85601664967022628, 0.67744865481933381), (0.85438941825783121, 0.70550283742139686)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 1000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 243) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 243)
+2014-06-22 19:47:36,452 => 2014-06-22 20:19:32,563 31.9333
+
+aucs=[(0.84512335230445601, 0.84784994841456307), (0.86036220691660803, 0.67894296904096696), (0.8593473065114754, 0.7040716880495822)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 6, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 243) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 243)
+2014-06-22 15:33:47,355 => 2014-06-22 16:16:47,664 43
+
+0.63401
+aucs=[(0.83385371861114466, 0.84912242466575638), (0.8497369285823656, 0.6766478617261904), (0.84799831037011464, 0.7042394664049948)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 7, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 4000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 243) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 243)
+2014-06-22 16:54:18,914 => 2014-06-22 17:15:37,833 21.3167
+
+0.63375
+aucs=[(0.83797067510490419, 0.84842259426748312), (0.85334146349722373, 0.67920240208338034), (0.85197991860121403, 0.70381360201886423)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 800, 'bst:min_child_weight': 2000, 'bst:eta': 0.05}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 243) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 243)
+2014-06-22 08:42:50,924 => 2014-06-22 10:17:15,811 94.4167
+
+0.62310
+aucs=[(0.84085237828100634, 0.84949017960658635), (0.85680068384059416, 0.68490881659958158), (0.85516713697435398, 0.70903086832352857)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtwna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 5)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 430) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 430)
+2014-06-21 23:42:05,673 => 2014-06-22 00:35:58,498 53.8833
+
+===============2014-06-21===============
+0.63330
+aucs=[(0.83791998105784249, 0.84873458276706826), (0.85326701997512544, 0.67861800788818605), (0.85175052404396479, 0.70606021597693958)]
+{'version': 'dense4', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dtna', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 243) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 243)
+2014-06-21 18:59:58,279 => 2014-06-21 19:31:46,087 31.8
+
+0.63555
+aucs=[(0.8370198131372476, 0.84826513144223537), (0.85258989997831269, 0.67948736141499277), (0.85109951331951306, 0.70758990586882919)]
+{'version': 'dense4', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 1000, 'bst:min_child_weight': 2000, 'bst:eta': 0.04}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 219) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 219)
+2014-06-21 07:37:17,057 => 2014-06-21 08:40:03,114 62.7667
+
+===============2014-06-20===============
+0.62139
+aucs=[(0.84076362573434305, 0.84901104948262163), (0.85639950760439176, 0.68425788916634278), (0.85437547599939245, 0.7096761549336702)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 6, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 5)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 384) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 384)
+2014-06-20 21:34:01,640 => 2014-06-20 22:19:32,289 45.5167
+
+0.59226
+aucs=[(0.81862367732631114, 0.83922188053580804), (0.83477591875768986, 0.66008906153645819), (0.83414519448683322, 0.67380570180432886)]
+{'version': 'dense2', 'featureFactory': 'make_dense_instance', 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30), ('007dtw', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30, 10)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 362) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 362)
+2014-06-17 01:25:35,706 => 2014-06-18 01:13:42,345 1428.12
+
+aucs=[(0.84156499789241546, 0.85066691262514404), (0.85700043918790902, 0.68582801429291695), (0.85523242365004304, 0.71046965226084424)]
+{'version': 'dense4', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 1000, 'bst:min_child_weight': 2000, 'bst:eta': 0.04}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 3), ('007dtw', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 5)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 549) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 549)
+2014-06-20 08:56:12,383 => 2014-06-20 12:49:31,663 233.317
+
+0.62214
+aucs=[(0.84054320556486939, 0.84980260177947153), (0.85609430161041011, 0.68516645961131895), (0.85466754151229329, 0.71103124478436797)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 800, 'bst:min_child_weight': 2000, 'bst:eta': 0.05}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('007dtw', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 0, 5)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 384) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 384)
+2014-06-20 00:54:06,175 => 2014-06-20 02:35:50,103 101.733
+
+===============2014-06-19===============
+0.62843
+aucs=[(0.81620733661248923, 0.84465740343171025), (0.83364550564322626, 0.66777836700717907), (0.83216439031521461, 0.69610411180203957)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 200, 'bst:min_child_weight': 2000, 'bst:eta': 0.05}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 219) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 219)
+2014-06-19 22:56:13,476 => 2014-06-19 23:15:21,764 19.1333
+
+0.63627
+aucs=[(0.83701347993138719, 0.84910018905395734), (0.85303086707163767, 0.6771123888039996), (0.850821078572778, 0.7052025336742791)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 219) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 219)
+2014-06-19 20:18:12,662 => 2014-06-19 20:56:05,878 37.8833
+
+aucs=[(0.80125666763709269, 0.82461308359950969), (0.8197077691026281, 0.62417950739336792), (0.82078733795147862, 0.60585903152025777)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('020',), ('021',)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 39) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 39)
+2014-06-19 18:36:28,577 => 2014-06-19 18:47:59,573 11.5167
+
+aucs=[(0.80083917042334107, 0.81920139302131001), (0.81953286647651991, 0.62295292698728244), (0.8204880988466885, 0.60230150934512372)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('002',), ('004d',), ('006d',), ('008d',), ('021',)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 32) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 32)
+2014-06-19 17:53:11,540 => 2014-06-19 18:01:29,268 8.3
+
+aucs=[(0.8367097675287769, 0.84939808317200105), (0.85257806221518317, 0.67784269873338743), (0.8507747145524448, 0.70461476317513072)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('001',), ('002',), ('004d',), ('006d',), ('008d',), ('020',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 212) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 212)
+2014-06-19 13:31:05,128 => 2014-06-19 14:06:14,326 35.15
+
+aucs=[(0.83610015327774267, 0.84836456089772183), (0.85187890807751854, 0.67792612997391999), (0.85050802676696902, 0.70273789564519473)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('001',), ('002',), ('004d',), ('006d',), ('008d',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 205) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 205)
+2014-06-19 09:07:41,367 => 2014-06-19 09:41:36,757 33.9167
+
+0.59951
+aucs=[(0.83389924807591687, 0.85053673179163203), (0.85029413837841594, 0.67380609203003816), (0.84845196783956789, 0.69490650274769927)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('001',), ('002',), ('004d',), ('006d',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 10), ('007dtw', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 10, 5)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 366) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 366)
+2014-06-19 01:32:21,652 => 2014-06-19 02:26:24,099 54.05
+
+===============2014-06-18===============
+0.62559
+aucs=[(0.83000470797222226, 0.84767389677562044), (0.84591655828144685, 0.67229551224571193), (0.84480795476938775, 0.6888384115928744)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('001',), ('002',), ('004d',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 10)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 197) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 197)
+2014-06-18 22:09:35,077 => 2014-06-18 22:49:06,424 39.5167
+
+0.62278
+aucs=[(0.81418436496412805, 0.84530811047490084), (0.83207924301198566, 0.66599476519364087), (0.83094136749513625, 0.69635108414245517)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 1, 'nthread': 5, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 100, 'bst:min_child_weight': 2000, 'bst:eta': 0.1}), 'feature': [('001',), ('002',), ('004d',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 197) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 197)
+2014-06-18 21:25:58,396 => 2014-06-18 21:34:17,212 8.31667
+
+0.61531
+aucs=[(0.84395270672083544, 0.84677982017300968), (0.85830285371508364, 0.65627971249757622), (0.8571279199879126, 0.66899434531667001)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 0.8, 'nthread': 3, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 400, 'bst:min_child_weight': 2000}), 'feature': [('001',), ('002',), ('004d',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 197) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 197)
+2014-06-18 15:16:37,627 => 2014-06-18 16:56:53,986 100.267
+
+aucs=[(0.800948299355975, 0.84196391783123603), (0.82128829147244009, 0.63727593086296419), (0.82052773085696484, 0.61243168356377753)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'bst:subsample': 0.8, 'nthread': 3, 'bst:max_depth': 5, 'objective': 'rank:pairwise', 'num_round': 100, 'bst:min_child_weight': 2000}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('003dtw', [u'is_exciting'], 30, 5), ('003dtw', [u'is_exciting'], 30, 10)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 61) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 61)
+2014-06-18 14:52:33,519 => 2014-06-18 14:59:07,142 6.56667
+
+0.61767
+aucs=[(0.81452231456862678, 0.82911238473518067), (0.83161906755360582, 0.64295913709498476), (0.83169673515510278, 0.66341097753621314)]
+{'version': 'dense3', 'featureFactory': 'make_dense_instance', 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 197) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 197)
+2014-06-17 01:39:03,741 => 2014-06-17 13:23:58,524 704.917
+
+aucs=[(0.79334301294806342, 0.84229455428183286), (0.81296032646602934, 0.62917051666785584), (0.81322728208534711, 0.60799217073358769)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'num_round': 100, 'bst:max_depth': 5, 'objective': 'binary:logistic', 'nthread': 3, 'bst:min_child_weight': 2000}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('003dtw', [u'is_exciting'], 30, 5), ('003dtw', [u'is_exciting'], 30, 10)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 61) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 61)
+2014-06-18 14:26:27,939 => 2014-06-18 14:32:18,605 5.85
+
+aucs=[(0.7646679242036174, 0.83242377590887373), (0.78665913908906571, 0.6171896380578884), (0.7879314381830882, 0.60072019834523049)]
+{'version': 'dense5', 'featureFactory': 'make_dense_instance', 'modelFactory': ('models.XGB', {'num_round': 10, 'bst:max_depth': 5, 'objective': 'binary:logistic', 'nthread': 2, 'bst:min_child_weight': 2000}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('003dtw', [u'is_exciting'], 30, 5), ('003dtw', [u'is_exciting'], 30, 10)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 61) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 61)
+2014-06-18 14:19:05,547 => 2014-06-18 14:19:59,713 0.9
+
+aucs=[(0.81350338806661859, 0.83718566621510015), (0.83152497100624334, 0.63567889598497918), (0.83172976317081226, 0.61019293502905092)]
+{'version': 'dense', 'featureFactory': 'make_dense_instance', 'modelFactory': ('ensemble.GradientBoostingClassifier', {'max_features': 'log2', 'n_estimators': 400, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('003dtw', [u'is_exciting'], 50, 10), ('003dtw', [u'is_exciting'], 50, 30), ('003dtw', [u'is_exciting'], 50, 50)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 72) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 72)
+2014-06-18 10:32:44,776 => 2014-06-18 11:20:57,080 48.2167
+
+aucs=[(0.81271890046888218, 0.83383254384401551), (0.83083825268032596, 0.63167711300149121), (0.83068286277119419, 0.61478830939929097)]
+{'version': 'dense', 'featureFactory': 'make_dense_instance', 'modelFactory': ('ensemble.GradientBoostingClassifier', {'max_features': 'log2', 'n_estimators': 400, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('003dtw', [u'is_exciting'], 30, 10)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 50) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 50)
+2014-06-18 00:03:09,730 => 2014-06-18 00:50:05,640 46.9333
+
+aucs=[(0.80742310988551902, 0.83480416911425337), (0.82496627160051128, 0.63507103657690589), (0.82528388630344329, 0.61717508656599862)]
+{'version': 'dense4', 'featureFactory': 'make_dense_instance', 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 200, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('003dtw', [u'is_exciting'], 30, 5), ('003dtw', [u'is_exciting'], 30, 10)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 61) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 61)
+2014-06-17 09:25:57,901 => 2014-06-17 14:18:47,762 292.833
+
+===============2014-06-17===============
+aucs=[(0.80763306446447358, 0.83736670509674338), (0.82498925339631091, 0.63771881663930519), (0.82590992234826011, 0.61809473956004124)]
+{'version': 'dense', 'featureFactory': 'make_dense_instance', 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 200, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('003dtw', [u'is_exciting'], 30, 10)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 50) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 50)
+2014-06-17 09:25:44,217 => 2014-06-17 13:28:48,890 243.067
+
+aucs=[(0.79731404666814765, 0.83175980240587555), (0.81632503438347459, 0.6333898335529512), (0.81736849390885269, 0.6142565690672519)]
+{'version': 'dense4', 'featureFactory': 'make_dense_instance', 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('003dtw', [u'is_exciting'], 30, 5), ('003dtw', [u'is_exciting'], 30, 10)], 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 61) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 61)
+2014-06-17 01:21:30,100 => 2014-06-17 03:56:33,544 155.05
+
+aucs=[(0.79723452935878225, 0.83536370620647526), (0.81644790296142478, 0.63302479999414074), (0.81718143011846345, 0.61770238532373078)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('003dtw', [u'is_exciting'], 30, 10)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 50) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 50)
+2014-06-17 01:11:25,872 => 2014-06-17 03:12:27,641 121.033
+
+===============2014-06-16===============
+0.62561
+aucs=[(0.82584363003215655, 0.82374268161556563), (0.84225471932448981, 0.66337104325650853), (0.84151310623045872, 0.70269799951297662)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('007dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 197) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 197)
+2014-06-13 01:06:29,365 => 2014-06-14 09:32:57,265 1946.47
+
+aucs=[(0.81755213617834832, 0.82124334365695995), (0.83361359583521588, 0.62905614951854727), (0.83494540654062144, 0.614353594379766)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 400, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 10)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 39) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 39)
+2014-06-13 00:17:20,994 => 2014-06-13 19:02:44,545 1125.4
+
+aucs=[(0.81702788777356639, 0.82530845899046978), (0.83455562677503181, 0.63045207416755211), (0.83429024390669471, 0.61469717258680334)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 400, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 39) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 39)
+2014-06-13 00:15:59,811 => 2014-06-13 19:05:31,932 1129.53
+
+aucs=[(0.80730852952372489, 0.8251979314415927), (0.824769493703984, 0.63286158815917426), (0.82413792267873864, 0.64790728529059749)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('007dt', [u'is_exciting'], 30)], 'version': 'dense2', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 47) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 47)
+2014-06-13 16:34:19,296 => 2014-06-13 19:26:50,518 172.517
+
+aucs=[(0.79775115758492154, 0.82509775291392129), (0.81613729271611202, 0.62951280497881945), (0.81709847241650824, 0.60056890518866968)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30), ('006d',)], 'version': 'dense3', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 43) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 43)
+2014-06-13 16:42:44,052 => 2014-06-13 19:11:07,277 148.383
+
+0.61917
+aucs=[(0.80717715444825155, 0.82725787951800422), (0.82564651315649096, 0.63493453967925351), (0.82456364541180494, 0.65144587712490054)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('007dt', [u'is_exciting'], 30), ('006d',)], 'version': 'dense4', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 51) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 51)
+2014-06-13 16:51:24,427 => 2014-06-13 19:59:21,685 187.95
+
+===============2014-06-13===============
+aucs=[(0.73342817052960396, 0.67408853802700353), (0.75782564562926469, 0.54890965476310694), (0.75143029955415575, 0.53910145131204057)]
+{'transformer': FastICA(algorithm='parallel', fun='logcosh', fun_args=None, max_iter=200,
+    n_components=10, random_state=None, tol=0.0001, w_init=None,
+    whiten=True), 'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30)], 'version': 'temp', 'featureFactory': 'make_dense_instance', 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 10) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 10)
+2014-06-13 13:38:26,581 => 2014-06-13 14:31:49,336 53.3833
+
+aucs=[(0.74764419301355856, 0.69607597041196079), (0.77305583451301674, 0.52793513687752713), (0.76861178239226713, 0.5642689752361405)]
+{'transformer': FastICA(algorithm='parallel', fun='logcosh', fun_args=None, max_iter=200,
+    n_components=10, random_state=None, tol=0.0001, w_init=None,
+    whiten=True), 'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'], 30)], 'version': 'temp2', 'featureFactory': 'make_dense_instance', 'cross_validation': (11717, 14, 3)}
+shapes : train_x=(619326, 10) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 10)
+2014-06-13 13:45:30,602 => 2014-06-13 14:39:15,192 53.75
+
+aucs=[(0.79902442508202753, 0.82204739362927171), (0.81765427823278458, 0.62510549534505766), (0.81829060478740734, 0.61329118671678096)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 1000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 39) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 39)
+2014-06-13 00:18:52,199 => 2014-06-13 05:20:43,799 301.85
+
+aucs=[(0.79681455076788099, 0.82325675070616755), (0.81532592891287825, 0.62639278150761413), (0.81676462536047001, 0.6151116729156928)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 0)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 39) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 39)
+2014-06-13 00:19:43,084 => 2014-06-13 05:22:09,377 302.433
+
+===============2014-06-12===============
+0.61976
+aucs=[(0.80730852957508059, 0.82519316103551721), (0.824769493703984, 0.63286158815917426), (0.82413792267873864, 0.64790755191511595)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('007dt', [u'is_exciting'], 30)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 47) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 47)
+2014-06-12 17:53:03,726 => 2014-06-12 22:20:14,612 267.183
+
+0.60090
+aucs=[(0.79693911585145871, 0.82116745083329101), (0.81558437704838382, 0.62504336377549263), (0.8164743706487313, 0.61526653949110366)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'min_samples_leaf': 2000, 'verbose': 2, 'max_depth': 5}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 39) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 39)
+2014-06-12 18:19:18,708 => 2014-06-12 21:54:31,319 215.217
+
+aucs=[(0.74336530102533438, 0.78947458786935565), (0.76903686944304617, 0.6072869003629402), (0.76734300006743072, 0.57767418620425737)]
+{'combination': 0, 'modelFactory': ('linear_model.LogisticRegression', {'penalty': 'l1', 'C': 1}), 'feature': [('001',), ('002',), ('004d',), ('003dt', [u'is_exciting'], 30)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 39) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 39)
+2014-06-12 19:11:48,812 => 2014-06-12 19:48:57,287 37.15
+
+aucs=[(0.86121461812662536, 0.85003757384710144), (0.87044290534514124, 0.78953059844840134), (0.86971846898022576, 0.79505367948201744)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'max_depth': 5, 'min_samples_leaf': 2000}), 'feature': [('001',), ('002',), ('004d',), ('007d', 10, [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 182) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 182)
+2014-06-11 10:53:16,527 => 2014-06-12 13:59:59,649
+
+aucs=[(0.86245908963109785, 0.85315935123589715), (0.87216150516903623, 0.78886873037025018), (0.87151279882891952, 0.79402830011191705)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100, 'max_depth': 5, 'min_samples_leaf': 10}), 'feature': [('001',), ('002',), ('004d',), ('007d', 10, [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+shapes : train_x=(619326, 182) train_y=(619326,)(+0.0592741141176%) test_x=(44772, 182)
+2014-06-11 10:25:56,442 => 2014-06-12 13:40:20,872 1634.4
+
+aucs=[(0.8273830042329865, 0.81071493918100912), (0.83205149367650555, 0.75109727892355449), (0.8317808308190201, 0.7631231726262544)]
+{'combination': 0, 'modelFactory': ('linear_model.LogisticRegression', {'penalty': 'l1', 'C': 1}), 'feature': [('001',), ('002',), ('004d',), ('007d', 10, [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+
+===============2014-06-11===============
+0.60018
+aucs=[(0.85452821166547333, 0.85125743764457928), (0.86363848768405316, 0.78398186756516275), (0.86326547790582819, 0.79171003894307779)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 100}), 'feature': [('001',), ('002',), ('004d',), ('007d', 10, [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'])], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+
+===============2014-06-10===============
+aucs=[(0.75470817236041809, 0.77473525527608234), (0.77075358820545992, 0.62048444644886092), (0.77157654111560503, 0.60176153941974497)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {}), 'feature': [('001',), ('002',), ('004d',)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+
+0.58113
+aucs=[(0.83643660342543191, 0.8355286006147824), (0.84770929322502997, 0.76179525045231211), (0.84648623951600621, 0.77049723294148509)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 20}), 'feature': [('001',), ('002',), ('004d',), ('007d',)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+
+aucs=[(0.75470817236041809, 0.77473525527608234), (0.77075358820545992, 0.62048444644886092), (0.77157654111560503, 0.60176153941974497)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {}), 'feature': [('001',), ('002',), ('004d',)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+
+aucs=[(0.73512117917476694, 0.77995770660480856), (0.75172864128741823, 0.60888759718066687), (0.75238674029730701, 0.59360218535860088)]
+{'combination': 0, 'modelFactory': ('ensemble.GradientBoostingClassifier', {'n_estimators': 20}), 'feature': [('001',), ('002',), ('004d',)], 'version': 'dense', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_dense_instance'}
+
+===============2014-06-09===============
+aucs=[(0.8056145593716233, 0.80429732371921747), (0.8155663726899951, 0.63292191558102651), (0.81689969406073759, 0.61415575248413734)]
+{'combination': 0, 'modelFactory': ('naive_bayes.MultinomialNB', {}), 'feature': [('001',), ('002',), ('003',), ('004a',), ('005', 10), ('006',), ('008',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+aucs=[(0.67539946539732154, 0.61050040495228475), (0.67742314045902818, 0.61498237494573449), (0.67735441802314678, 0.59436793747824557)]
+{'combination': 1, 'modelFactory': ('naive_bayes.MultinomialNB', {}), 'feature': [('001',), ('002',), ('003',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+aucs=[(0.63947648754536313, 0.5929991058051084), (0.64062254724524004, 0.61237741162659964), (0.64113077369575211, 0.58749027348881122)]
+{'combination': 0, 'modelFactory': ('naive_bayes.MultinomialNB', {}), 'feature': [('001',), ('002',), ('003',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+===============2014-06-08===============
+aucs=[(0.89271468499659035, 0.80215702781148512), (0.90417364275677681, 0.63974494219915867), (0.90374858720636742, 0.63173792916834204)]
+{'combination': 0, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1', 'C': 2}), 'feature': [('001',), ('002',), ('003',), ('004a',), ('005', 10), ('006',), ('008',), ('009',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+aucs=[(0.78034984775727878, 0.61493366947470818), (0.78667865146139693, 0.61923987538744718), (0.7850317256851721, 0.60824004049311475)]
+{'combination': 1, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1', 'C': 1}), 'feature': [('001',), ('002',), ('003',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+aucs=[(0.80969223207097418, 0.60049491188874959), (0.8173032291142367, 0.61275951259148209), (0.81544959041190201, 0.60162779796013455)]
+{'combination': 1, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1', 'C': 2}), 'feature': [('001',), ('002',), ('003',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+aucs=[(0.84230272834268627, 0.80926445976127648), (0.85507693117610661, 0.64929171789452178), (0.85468551231550016, 0.63666165163287713)]
+{'combination': 0, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1', 'C': 0.5}), 'feature': [('001',), ('002',), ('003',), ('004a',), ('005', 10), ('006',), ('008',), ('009',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+aucs=[(0.78725910053216464, 0.80976125221488349), (0.80538779297786089, 0.63855337468017015), (0.80628135404976831, 0.60528419881331352)]
+{'combination': 0, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1', 'C': 0.1}), 'feature': [('001',), ('002',), ('003',), ('004a',), ('005', 10), ('006',), ('008',), ('009',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+0.59552
+aucs=[(0.87216170696240647, 0.80700009387030847), (0.88363083930383701, 0.64593022097894703), (0.88333391103759251, 0.63595986338549826), (0.88189716588813893, 0.67425453047866724), (0.88195485608986612, 0.66526587634374901), (0.88209293620913021, 0.68354882264036976), (0.8813273824945651, 0.67129174604727548), (0.88254670601107488, 0.63403636752510539), (0.88408264998822172, 0.63681193656135948), (0.88259557087926532, 0.62294635988001346)]{'combination': 0, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1'}), 'feature': [('001',), ('002',), ('003',), ('004a',), ('005', 10), ('006',), ('008',), ('009',)], 'version': 'current', 'cross_validation': (11717, 14), 'featureFactory': 'make_sparse_instance'}
+
+aucs=[(0.84850213086024895, 0.81231097512340156), (0.86131699078145518, 0.65659228742862208), (0.8613378250851611, 0.64032230222077924), (0.85931822461362584, 0.67900845042984692), (0.85962103975222648, 0.67152221992716332), (0.85958501272676002, 0.68672415719810997), (0.85901416426363975, 0.68643582246819246), (0.86017205824326326, 0.63844733554758515), (0.86086822133468666, 0.64425802150604772), (0.85957960373135922, 0.62882873801989081)]
+{'combination': 0, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1'}), 'feature': [('001',), ('002',), ('003',), ('004a',), ('005', 10), ('006',), ('008',)], 'version': 'current', 'cross_validation': (11717, 14), 'featureFactory': 'make_sparse_instance'}
+
+===============2014-06-07===============
+0.60483
+aucs=[(0.84817371602487512, 0.81266767139562202), (0.86099772871971481, 0.65695923807077861), (0.86094754857123768, 0.64104822323859267), (0.85899649263127087, 0.67995907097529695), (0.85930556542081293, 0.67228994682572674), (0.85927236439374288, 0.68720690336660162), (0.85872092894616303, 0.68688291037985905), (0.85982312853150311, 0.63955924977411283), (0.86055537540218929, 0.64495552848312443), (0.85924814851755638, 0.62883031673816336)]
+{'combination': 0, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1'}), 'feature': [('001',), ('002',), ('003',), ('004a',), ('005', 10), ('006',)], 'version': 'current', 'cross_validation': (11717, 14), 'featureFactory': 'make_sparse_instance'}
+
+
+aucs=[(0.6895749980759428, 0.62929454328231116), (0.69232855943864902, 0.62393943435155952), (0.69141722695235852, 0.61322744719931532)]
+{'combination': 1, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1', 'C': 0.1}), 'feature': [('001',), ('002',), ('003',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+
+aucs=[(0.63672687274912754, 0.60119687122862719), (0.63619167010258126, 0.6109099732756349), (0.63661486511453547, 0.58968653443107433)]
+{'combination': 0, 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1', 'C': 0.1}), 'feature': [('001',), ('002',), ('003',)], 'version': 'current', 'cross_validation': (11717, 14, 3), 'featureFactory': 'make_sparse_instance'}
+
+
+===============2014-06-06===============
+
+0.60620
+aucs=[(0.82822712594982173, 0.72356196601761014), (0.84481306308969806, 0.65431216950322513), (0.84265766924769026, 0.64619747102744629), (0.83821344633127837, 0.6807759669872564), (0.83726932967207923, 0.66510449579194986), (0.83857558213740779, 0.66449587953033373), (0.83975436616784105, 0.68501221079741936), (0.84090216068295431, 0.63733611245094635), (0.83709456559924733, 0.64596558115114777), (0.83636037223763926, 0.63429889758565461)]
+{'version': 'current', 'featureFactory': 'make_sparse_instance', 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1'}), 'feature': [('001',), ('002',), ('003',), ('004',), ('005', 10), ('006',)], 'cross_validation': (11717, 14)}
+
+
+0.58967
+aucs=[(0.78844354943931705, 0.64836439925587008), (0.79386472570373579, 0.64951992704219519), (0.79073854712410496, 0.64587866613998146), (0.79103452573248945, 0.67069000224819308), (0.79150062706637825, 0.64880870366519861), (0.79222540883939674, 0.65188121248742081), (0.79184317092948064, 0.66306969417114503), (0.79316082602300209, 0.62962997191686143), (0.79469575850194896, 0.63145784953893425), (0.79315698415296521, 0.61343470231042085)]
+{'version': 'current', 'featureFactory': 'make_sparse_instance', 'modelFactory': ('sklearn.linear_model.LogisticRegression', {'penalty': 'l1'}), 'feature': [('001',), ('002',), ('003',), ('004',), ('005', 10)], 'cross_validation': (11717, 14)}
+
+
+0.57386
+aucs=[(0.70617961519645511, 0.60964050968910288), (0.71078919073303515, 0.63311277407280986), (0.70901385648068471, 0.62461804330703818), (0.70752911508327099, 0.64810002921993681), (0.70915788495041376, 0.62939575162477379), (0.70973816178826943, 0.62504040654970106), (0.70835226364446946, 0.63775125797924259), (0.71085717448204699, 0.60280754918155199), (0.7126414310737309, 0.61303722766055946), (0.71260132352966488, 0.59948131165009766)]{'version': 'current', 'featureFactory': 'make_sparse_instance', 'modelFactory': ('sklearn.linear_model.LogisticRegression', {}), 'feature': [('001',), ('002',), ('003',), ('004',), ('005',)], 'cross_validation': (11717, 14)}
+
+
+0.56485
+aucs=[(0.65755693951251493, 0.59697957599919405), (0.65888589747728754, 0.61735669535310755), (0.65950916912272262, 0.59563122070362284), (0.65687523721613372, 0.62289081709280425), (0.6591604743184607, 0.60626489856028931), (0.6587416460360549, 0.60887726487311822), (0.65800341578473454, 0.61890808020459898), (0.66079540114830704, 0.58366390413616553), (0.66114660195071795, 0.60207230073795481), (0.66294504573184188, 0.58357376089357027)]
+{'version': 'current', 'featureFactory': 'make_sparse_instance', 'modelFactory': ('sklearn.linear_model.LogisticRegression', {}), 'feature': [('001',), ('002',), ('003',), ('004',)], 'cross_validation': (11717, 14)}
+
+

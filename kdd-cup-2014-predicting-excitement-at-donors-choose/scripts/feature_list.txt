@@ -1,11 +1,12 @@
-('002',),		boolean values in projects.csv
-('004d',),		numeric values in projects.csv
-('004d_1',),	poverty_level,grade_level mapped to numeric value
-('006d',),		time features
-('008d',),		text lengths in essays.csv
-('020',),		basic infos from resource.csv, like resouceid_cnt etc.
-('021',),		succese rate(is_exciting) of vendorid,project_resource_type from resouce.csv
+name_in_config,		name_in_feature.csv,			meaning
+('002',),								boolean values in projects.csv
+('004d',),			numeric values in projects.csv
+('004d_1',),		poverty_level,grade_level mapped to numeric value
+('006d',),			time features
+('008d',),			text lengths in essays.csv
+('020',),			basic infos from resource.csv, like resouceid_cnt etc.
+('021',),			succese rate(is_exciting) of vendorid,project_resource_type from resouce.csv
 ('007dtna_1',...),	success rate(all in outcomes.csv) of ID columns in projects.csv
-('017',...)		recent active counts of ID columns in projects.csv
-('030',...)		success rate(all in outcomes.csv) of title,short_description,need_statement,essay
-('031',...)		recent active counts of title,short_description,need_statement,essay
+('017',...),		recent active counts of ID columns in projects.csv
+('030',...),		success rate(all in outcomes.csv) of title,short_description,need_statement,essay
+('031',...),		recent active counts of title,short_description,need_statement,essay

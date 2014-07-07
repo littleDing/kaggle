@@ -133,8 +133,7 @@ solutions = {
 		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':40,'nthread':6,'objective':'rank:pairwise',
 			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.1}), 
 		'feature' : [ #('002',),('004d',),('004d_1',),('006d',),('008d',),('020',),('021',),
-			('040','short_description'),
-			('040','title'),
+			('040','essay'),('040','need_statement'),('040','short_description'),('040','title'),
 			#('017s',[10],[90,180,360])
 			#('030_1',10),('030_2',10,[10],[90,180,360]),
 			#('007dtna',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']),
@@ -146,13 +145,13 @@ solutions = {
 	},
 	'dense5' : {
 		'cross_validation' : (11717,14,3),
-		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':400,'nthread':6,'objective':'rank:pairwise',
+		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':400,'nthread':7,'objective':'rank:pairwise',
 			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.1}), 
 		'feature' : [ ('002',),('004d',),('004d_1',),('006d',),('008d',),('020',),('021',),
+			('040','essay'),('040','need_statement'),('040','short_description'),('040','title'),
 			('017',[10],[90,180,360]),
 			('030_1',10),('030_2',10,[10],[90,180,360]),
 			('007dtna_1',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']),
-			#('007dtw_2',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count'],0,(30,30)),
 		],
 		'train_dates' : ('2010-01-01','2014-01-01'),
 		'featureFactory' : 'make_dense_instance'

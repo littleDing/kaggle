@@ -139,16 +139,19 @@ def prepare_data(filename,columns,target_columns=['is_exciting'],fillna=0):
 	if filename != 'projects.csv' :
 		pids = utils.read_csv('projects.csv')[['projectid','date_posted']]
 		feature = pd.merge(pids,feature,how='left')
-	data = feature[['projectid','date_posted']+columns]
+	data_target_columns = [ c for c in target_columns if c in feature.columns ]
+	outcome_target_columns = [ c for c in target_columns if c not in feature.columns ]
+	data = feature[['projectid','date_posted']+columns+data_target_columns]
 	logging.info('prepare_data begining, data shape=%s'%(data.shape,))
-	outcomes = utils.read_csv('outcomes.csv')
-	outcomes = outcomes[['projectid']+target_columns] 
-	for c in outcomes.columns:
-		if c != 'projectid':
-			outcomes[c] = map(int,outcomes[c].fillna(0))
-	data = pd.merge(data,outcomes,how='left')
-	if fillna != None:
-		data = data.fillna(fillna)
+	if len(outcome_target_columns) > 0 :
+		outcomes = utils.read_csv('outcomes.csv')
+		outcomes = outcomes[['projectid']+outcome_target_columns] 
+		for c in outcomes.columns:
+			if c != 'projectid':
+				outcomes[c] = map(int,outcomes[c].fillna(0))
+		data = pd.merge(data,outcomes,how='left')
+		if fillna != None:
+			data = data.fillna(fillna)
 	return data
 
 def filter_values(data,c,atleast):
@@ -216,7 +219,7 @@ def handle_column(data,c,target_columns,atleast,latest,tag,fillna=None):
 	return data,name_columns
 
 def transformer_1(c,target_columns,latest=None,circle=None,latest_days=None):
-	cnt = 'cnt@%s'%(c,)
+	cnt = 'cnt_%s@%s'%(target_columns,c)
 	if latest != None :
 		if type(latest) == tuple:
 			shift,window = latest
@@ -272,7 +275,8 @@ def handle_column_1(data,c,target_columns,atleast,latest,circle,tag):
 	stats = part.groupby(c).apply(transform)
 	stats = stats.reset_index().rename(columns={ t:'%s@%s.%s.%s'%(t,c,tag,latest) for t in target_columns })
 	name_columns = [ '%s@%s.%s.%s'%(t,c,tag,latest) for t in target_columns ]
-	if latest == None: name_columns = name_columns + ['cnt@%s'%(c,)]
+	cnt = 'cnt_%s@%s'%(target_columns,c)
+	if latest == None: name_columns = name_columns + [ cnt ]
 	logging.info('%s shape of stats=%s'%(c,stats.shape,))
 	stats = stats[[c,'date_posted']+name_columns]
 	data  = pd.merge(data,stats,how='left',on=[c,'date_posted']).fillna(0)
