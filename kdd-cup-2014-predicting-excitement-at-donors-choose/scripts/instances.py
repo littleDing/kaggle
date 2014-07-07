@@ -696,6 +696,73 @@ def feature_040(feature,field):
 	'''
 	return lr_tfidf(field),{'score@%s'%field:1}
 
+def make_score_hold(factory,seasons,score_name):
+	train_vector,train_ids,targets,test_vector,test_ids = factory() 
+	projects 	= utils.read_csv('projects.csv')[['projectid','date_posted']]	
+	train_idx 	= { pid:i for i,pid in enumerate(train_ids) }
+	projects['idx'] = projects.projectid.map(train_idx)
+	projects.date_posted = [ '%s-%02d-01'%(d[:4],(int(d[5:7])-1)/seasons+1) for d in projects.date_posted ]
+	projects.date_posted[ projects.date_posted <  '2008-01-01' ] = '2007-12-01'
+	projects.date_posted[ projects.date_posted >= '2014-01-01' ] = '2014-01-01'
+	training = projects[ projects.idx.notnull() ]
+	outcomes = utils.read_csv('outcomes.csv')[['projectid','is_exciting']]
+	training = pd.merge(training,outcomes)
+	def handle(x):
+		day = x.date_posted.iloc[0]
+		logging.info('handling %s of shape %s'%(day,x.shape))
+		idx = training.date_posted!=day
+		train_x = train_vector[training.idx[idx]]
+		train_y = training.is_exciting[idx]
+		model = linear_model.LogisticRegression()
+		model.fit(train_x,train_y)
+		pred_x = test_vector if day == '2014-01-01' else train_vector[list(training.idx[training.date_posted==day])]
+		x[score_name] = model.predict_proba(pred_x)[:,1]
+		return x
+	scores = projects.groupby('date_posted').apply(handle).reset_index()[['projectid',score_name]]
+	return scores
+
+@decorators.disk_cached(utils.CACHE_DIR+'/lr_tfidf_hold')
+def lr_tfidf_hold(field,max_df=0.5,min_df=2,max_features=5000):
+	factory = lambda : to_tfidf_vector(field)
+	score_name = 'score.hold@%s'%field
+	return make_score_hold(factory,12,score_name)
+
+def feature_040h(feature,field):
+	'''
+	@return id=> prediction by logistic regression using tfidf text fields, holding 1 month out
+	'''
+	return lr_tfidf_hold(field),{'score.hold@%s'%field:1}
+
+@decorators.disk_cached(utils.CACHE_DIR+'/lr_prediction')
+def lr_prediction(versions):
+	train_X,train_Y,train_ID,test_X,test_ID = make_sparse_instance(versions)
+	model = linear_model.LogisticRegression()
+	model.fit(train_X,train_Y)
+	train_yy = model.predict_proba(train_X)[:,1]
+	test_yy  = model.predict_proba(test_X)[:,1]
+	return pd.DataFrame({'projectid':list(train_ID)+list(test_ID),'%s'%versions:list(train_yy)+list(test_yy)})
+
+def feature_050(feature,versions):
+	'''
+	@return id => prediction by logistic regression using sparse features
+	'''
+	return lr_prediction(versions),{ '%s'%(versions):1 }
+
+@decorators.disk_cached(utils.CACHE_DIR+'/lr_prediction_hold')
+def lr_prediction_hold(versions,seasons=3):
+	def factory():
+		train_vector,targets,train_ids,test_vector,test_ids = make_sparse_instance(versions)
+		return train_vector,train_ids,targets,test_vector,test_ids
+	score_name = 'lr_rediction.hold@%s'%(versions)
+	return make_score_hold(factory,seasons,score_name)
+	
+def feature_050h(feature,versions,seasons=None):
+	'''
+	@return id => prediction by logistic regression using sparse features, holding 1 month out
+	'''
+	data = lr_prediction_hold(versions) if seasons==None else lr_prediction_hold(versions,seasons)
+	return lr_prediction_hold(versions),{ 'lr_rediction.hold@%s'%(versions) :1 }
+
 def nonlinear_001(x):
 	return x**2
 def nonlinear_002(x):
