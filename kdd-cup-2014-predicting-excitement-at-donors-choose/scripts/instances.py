@@ -7,10 +7,18 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import GradientBoostingRegressor
 import sklearn.metrics
 from sklearn.cross_validation import KFold
-from sklearn import linear_model
-
+from sklearn import svm,linear_model,ensemble,naive_bayes
 import utils,decorators
 
+def get_object(base,names):
+	if len(names) == 0 :
+		return base
+	else :
+		return get_object(base.__dict__[names[0]],names[1:])
+def make_model_factory(name,karg):
+	name = name.split('.')
+	factory = get_object(globals()[name[0]],name[1:])
+	return lambda : factory(**karg)
 @decorators.disk_cached(utils.CACHE_DIR+'/cross_validations')
 def cross_validations(seed,fold):
 	'''
@@ -553,6 +561,7 @@ def feature_008d(feature):
 	dimensions = { 'length_%s'%(c):1 for c in columns }
 	return data,dimensions
 
+@decorators.disk_cached(utils.CACHE_DIR+'/tfidf_encoder')
 def tfidf_encoder(filename,columns,max_df,min_df,max_features):
 	df = utils.read_csv('essays.csv')
 	data = pd.DataFrame(df.projectid)
@@ -566,6 +575,7 @@ def tfidf_encoder(filename,columns,max_df,min_df,max_features):
 		data[c_name] = map(lambda x:{ k:x[0,k] for k in x.nonzero()[1] },vector)
 		dimensions[c_name] = vector.shape[1]
 	return data,dimensions
+@decorators.disk_cached(utils.CACHE_DIR+'/tfidf_encoder_001')
 def tfidf_encoder_001(filename,columns,max_df,min_df,max_features):
 	'''
 		make tfidf vectors and state for gbdt
@@ -696,7 +706,7 @@ def feature_040(feature,field):
 	'''
 	return lr_tfidf(field),{'score@%s'%field:1}
 
-def make_score_hold(factory,seasons,score_name):
+def make_score_hold(factory,seasons,score_name,compare=(lambda x,y:x!=y),modelFactory=linear_model.LogisticRegression):
 	train_vector,train_ids,targets,test_vector,test_ids = factory() 
 	projects 	= utils.read_csv('projects.csv')[['projectid','date_posted']]	
 	train_idx 	= { pid:i for i,pid in enumerate(train_ids) }
@@ -710,10 +720,16 @@ def make_score_hold(factory,seasons,score_name):
 	def handle(x):
 		day = x.date_posted.iloc[0]
 		logging.info('handling %s of shape %s'%(day,x.shape))
-		idx = training.date_posted!=day
+		idx = compare(training.date_posted,day) 
+		if idx.sum()==0 :
+			x[score_name] = -1
+			return x
 		train_x = train_vector[training.idx[idx]]
 		train_y = training.is_exciting[idx]
-		model = linear_model.LogisticRegression()
+		if train_y.sum()==0 :
+			x[score_name] = -1
+			return x
+		model = modelFactory()
 		model.fit(train_x,train_y)
 		pred_x = test_vector if day == '2014-01-01' else train_vector[list(training.idx[training.date_posted==day])]
 		x[score_name] = model.predict_proba(pred_x)[:,1]
@@ -763,6 +779,36 @@ def feature_050h(feature,versions,seasons=None):
 	data = lr_prediction_hold(versions) if seasons==None else lr_prediction_hold(versions,seasons)
 	return lr_prediction_hold(versions),{ 'lr_rediction.hold@%s'%(versions) :1 }
 
+@decorators.disk_cached(utils.CACHE_DIR+'/lr_prediction_past')
+def lr_prediction_past(versions,seasons=3):
+	def factory():
+		train_vector,targets,train_ids,test_vector,test_ids = make_sparse_instance(versions)
+		return train_vector,train_ids,targets,test_vector,test_ids
+	score_name = 'lr_rediction.past@%s'%(versions)
+	return make_score_hold(factory,seasons,score_name,(lambda x,y:x<y))
+	
+def feature_050p(feature,versions,seasons=None):
+	'''
+	@return id => prediction by logistic regression using sparse features, holding 1 month out
+	'''
+	data = lr_prediction_past(versions) if seasons==None else lr_prediction_hold(versions,seasons)
+	return data,{ 'lr_rediction.past@%s'%(versions) :1 }
+
+@decorators.disk_cached(utils.CACHE_DIR+'/model_prediction_past')
+def model_prediction_past(versions,modelName,kargs,seasons=3):
+	def factory():
+		train_vector,targets,train_ids,test_vector,test_ids = make_sparse_instance(versions)
+		return train_vector,train_ids,targets,test_vector,test_ids
+	modelFactory = make_model_factory(modelName,kargs)
+	score_name = 'model(%s(%s))_rediction.past@%s'%(modelName,kargs,versions)
+	return make_score_hold(factory,seasons,score_name,(lambda x,y:x<y),modelFactory),{score_name:1}
+def feature_050pm(feature,versions,model,kargs={},seasons=3):
+	'''
+	@return id => prediction by logistic regression using sparse features, holding 1 month out
+	'''
+	data,dimensions = model_prediction_past(versions,model,kargs,seasons)
+	return data,dimensions
+
 def nonlinear_001(x):
 	return x**2
 def nonlinear_002(x):
@@ -779,9 +825,11 @@ def collect_features(feature,versions=[],IDNames=[]):
 		v = args[0]
 		f = globals()['feature_%s'%(v)](feature,*args[1:])
 		if type(f) == tuple :
-			columns.update(f[1])
+			cnames = { '%s::%s'%(v,k):_v for k,_v in f[1].iteritems() }
+			columns.update(cnames)
+			f[0].rename(columns={ k:'%s::%s'%(v,k) for k in f[1] },inplace=True);
 			f = f[0]
-		X = pd.merge(X,f,on=IDNames)
+		X = pd.merge(X,f,on=IDNames,suffixes=['', '_1'])
 	X.fillna(0,inplace=True)
 	return X,columns
 

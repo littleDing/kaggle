@@ -27,9 +27,9 @@ TEMP_DIR = load_dir('temp')
 RGF_TEMP_DIR = load_dir('temp/rgf')
 
 HDFS = CONFIGS.get('hdfs')
-HDFS_HOST = HDFS.get('host','localhost:54310')
-HDFS_DATA_DIR = os.path.join('hdfs://'+HDFS_HOST,HDFS.get('data',None))
-HDFS_CACHE_DIR = os.path.join('hdfs://'+HDFS_HOST,HDFS.get('cache',None))
+HDFS_HOST = 'hdfs://'+HDFS.get('host','localhost:54310') + '/'
+HDFS_DATA_DIR 	= HDFS_HOST + HDFS.get('data',None)
+HDFS_CACHE_DIR 	= HDFS_HOST + HDFS.get('cache',None)
 
 def get_date(s):
 	return datetime.date(*map(int,s.split('-')))
@@ -68,6 +68,7 @@ def to_rdd(filename,sep=',',true_values=None,false_values=None):
 			value = map(lambda x:0 if x in false_values else x,value)
 			return sp[0],value
 	sc = spark()
-	path = os.path.join(HDFS_DIR,filename)
+	path = os.path.join(HDFS_DATA_DIR,filename)
 	return sc.textFile(path).map(spliter)
+
 

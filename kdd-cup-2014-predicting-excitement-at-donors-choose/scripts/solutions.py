@@ -90,7 +90,12 @@ def solution(cross_validation=None,
 	if ma>1 or mi<0:
 		ans.is_exciting = (ans.is_exciting - mi)/(ma-mi)
 	ans.to_csv(os.path.join(utils.ANS_DIR,version+'.txt'),index=False,cols=['projectid','is_exciting'])	
-	
+
+descrete_features = [('002',), ('003',), ('004a',), ('005', 10), ('006',),('008',),('007',) ]
+combination_features  = [ descrete_features[:i+1] for i,f in enumerate(descrete_features) ]
+combination_features += [ [f] for f in descrete_features ]
+combination_features += [ [f1,f2] for i1,f1 in enumerate(descrete_features) for f2 in descrete_features[i1+1:] ]
+
 solutions = {
 	'current' : {
 		'cross_validation' : (11717,14,3),
@@ -125,46 +130,46 @@ solutions = {
 		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':10,'nthread':1,'objective':'rank:pairwise',
 			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.1}), 
 		'feature' : [ #('002',),('004d',),('004d_1',),('006d',),('008d',),('020',),('021',),
-			('050h',[ ('001',),('002',),('003',),('004a',)],),
-			('050h',[ ('001',),('002',),('003',),('004a',),('005',10)],),
-			('050h',[ ('001',),('002',),('003',),('004a',),('005',10),('006',)],),
-			('050h',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',)],),
-			('050h',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',),('009',)],),
+			('050p',[ ('001',),('002',),('003',),('004a',)],),
+			('050p',[ ('001',),('002',),('003',),('004a',),('005',10)],),
+			('050p',[ ('001',),('002',),('003',),('004a',),('005',10),('006',)],),
+			('050p',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',)],),
+			('050p',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',),('009',)],),
 		],
 		'featureFactory' : 'make_dense_instance',
 		'train_dates' : ('2010-01-01','2014-01-01'),
 	},
-	'dense4' : {
-		'cross_validation' : (11717,14,3),
+	'dense7' : {
+		'cross_validation' : (11717,14,14),
 		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':10,'nthread':1,'objective':'rank:pairwise',
 			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.1}), 
-		'feature' : [ #('002',),('004d',),('004d_1',),('006d',),('008d',),('020',),('021',),
-			#('050',[ ('001',),('002',),('003',),('004a',)],),
-			#('050',[ ('001',),('002',),('003',),('004a',),('005',10)],),
-			#('050',[ ('001',),('002',),('003',),('004a',),('005',10),('006',)],),
-			#('050',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',)],),
-			#('050',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',),('009',)],),
-			('040h','essay'),('040h','need_statement'),('040h','short_description'),('040h','title'),
+		'feature' : [ 
+			('050pm',fs,'naive_bayes.BernoulliNB') for fs in combination_features
 		],
 		'featureFactory' : 'make_dense_instance',
 		'train_dates' : ('2010-01-01','2014-01-01'),
 		'test_dates'  : None,
 	},
-	'dense5' : {
-		'cross_validation' : (11717,14,3),
-		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':400,'nthread':7,'objective':'rank:pairwise',
+	'dense8' : {
+		'cross_validation' : (11717,14,14),
+		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':10,'nthread':1,'objective':'rank:pairwise',
+			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.1}), 
+		'feature' : [ 
+			('050pm',[('007',)],'naive_bayes.BernoulliNB')   
+		], 
+		'featureFactory' : 'make_dense_instance',
+		'train_dates' : ('2010-01-01','2014-01-01'),
+		'test_dates'  : None,
+	},
+	'dense105' : {
+		'cross_validation' : (11717,14,14),
+		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':400,'nthread':6,'objective':'rank:pairwise',
 			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.1}), 
 		'feature' : [ ('002',),('004d',),('004d_1',),('006d',),('008d',),('020',),('021',),
-			#('050h',[ ('001',),('002',),('003',),('004a',)],),
-			#('050h',[ ('001',),('002',),('003',),('004a',),('005',10)],),
-			#('050h',[ ('001',),('002',),('003',),('004a',),('005',10),('006',)],),
-			#('050h',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',)],),
-			#('050h',[ ('001',),('002',),('003',),('004a',),('005',10),('006',),('008',),('009',)],),
-			('040h','essay'),('040h','need_statement'),('040h','short_description'),('040h','title'),
+			#('040h','essay'),('040h','need_statement'),('040h','short_description'),('040h','title'),
 			('017',[10],[90,180,360]),
-			('030_1',10),('030_2',10,[10],[90,180,360]),
-			('007dtna_1',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']),
-		],
+			#('030_1',10),('030_2',10,[10],[90,180,360]),
+			('007dtna_1',[u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']),],
 		'train_dates' : ('2010-01-01','2014-01-01'),
 		'featureFactory' : 'make_dense_instance'
 	},
