@@ -506,12 +506,16 @@ def feature_007dtna(feature,target_columns=['is_exciting'],atleast=0,fillna='pad
 	if include_all :
 		columns = columns + ['school_zip','school_ncesid']
 	return sparse_encoder_004('projects.csv',columns,atleast,target_columns,None,None,fillna)
-def feature_007dtna_1(feature,target_columns=['is_exciting'],atleast=0,include_all=False):
+def feature_007dtna_1(feature,target_columns=['is_exciting'],atleast=0,include_all=False,since=None):
 	''' @return id=> pos% of discrete features'''
 	columns = project_id_columns_small_first
 	if include_all :
 		columns = columns + ['school_zip','school_ncesid']
-	return sparse_encoder_004_1('projects.csv',columns,atleast,target_columns)
+	if since !=None :
+		return sparse_encoder_004_1('projects.csv',columns,atleast,target_columns,since=since)
+	else :
+		return sparse_encoder_004_1('projects.csv',columns,atleast,target_columns)
+
 
 def feature_007dtw(feature,target_columns=['is_exciting'],atleast=0,latest=None,include_all=True):
 	''' @return id=> pos% of discrete features'''
