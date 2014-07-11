@@ -142,7 +142,7 @@ def sparse_encoder_003(feature,columns,atleast,target_columns=['is_exciting']):
 		data = pd.merge(data,rate)
 	return data[['projectid']+dimensions.keys()],dimensions
 
-def prepare_data(filename,columns,target_columns=['is_exciting'],fillna=0):
+def prepare_data(filename,columns,target_columns=['is_exciting'],fillna=0,since=None):
 	feature = utils.read_csv(filename)
 	if filename != 'projects.csv' :
 		pids = utils.read_csv('projects.csv')[['projectid','date_posted']]
@@ -150,6 +150,8 @@ def prepare_data(filename,columns,target_columns=['is_exciting'],fillna=0):
 	data_target_columns = [ c for c in target_columns if c in feature.columns ]
 	outcome_target_columns = [ c for c in target_columns if c not in feature.columns ]
 	data = feature[['projectid','date_posted']+columns+data_target_columns]
+	if since != None:
+		data = data[data.date_posted>=since]
 	logging.info('prepare_data begining, data shape=%s'%(data.shape,))
 	if len(outcome_target_columns) > 0 :
 		outcomes = utils.read_csv('outcomes.csv')
@@ -306,11 +308,11 @@ def sparse_encoder_004(filename,columns,atleast=0,target_columns=['is_exciting']
 	return data[['projectid']+dimensions.keys()],dimensions
 
 @decorators.disk_cached(utils.CACHE_DIR+'/sparse_encoder_004_1') 
-def sparse_encoder_004_1(filename,columns,atleast=0,target_columns=['is_exciting'],latest=None,circle=None):
+def sparse_encoder_004_1(filename,columns,atleast=0,target_columns=['is_exciting'],latest=None,circle=None,since=None):
 	'''
-	@return id=> pos%,cnt in the PAST of discrete values,date
+	@return id=> pos%,cnt in the PAST of discrete values,date, data before since will be ignore and set to 0
 	'''
-	data = prepare_data(filename,columns,target_columns,None)
+	data = prepare_data(filename,columns,target_columns,None,since)
 	logging.info('sparse_encoder_004_1 outcomes joined, data shape=%s'%(data.shape,))
 	dimensions = {}
 	for c in columns:
@@ -829,7 +831,7 @@ def collect_features(feature,versions=[],IDNames=[]):
 			columns.update(cnames)
 			f[0].rename(columns={ k:'%s::%s'%(v,k) for k in f[1] },inplace=True);
 			f = f[0]
-		X = pd.merge(X,f,on=IDNames,suffixes=['', '_1'])
+		X = pd.merge(X,f,on=IDNames,suffixes=['', '_1'],how='left')
 	X.fillna(0,inplace=True)
 	return X,columns
 
