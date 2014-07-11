@@ -317,6 +317,9 @@ def sparse_encoder_004_1(filename,columns,atleast=0,target_columns=['is_exciting
 	dimensions = {}
 	for c in columns:
 		data,name_columns = handle_column_1(data,c,target_columns,atleast,latest,circle,'se004_1')
+		if since !=None:
+			data.rename(columns={ c:'%s.sincs%s'%(c,since) for c in name_columns })
+			name_columns = [ '%s.sincs%s'%(c,since) for c in name_columns ]
 		dimensions.update({ t:1 for t in name_columns })
 		logging.info('sparse_encoder_004_1 stats on %s ready, data shape=%s'%(c,data.shape))
 	return data[['projectid']+dimensions.keys()],dimensions
