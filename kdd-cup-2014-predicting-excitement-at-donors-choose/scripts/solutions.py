@@ -54,9 +54,13 @@ def solution(cross_validation=None,
 	if cross_validation != None :
 		seed,fold = cross_validation[:2]
 		atmost = cross_validation[2] if len(cross_validation)>=3 else 9999
+		if type(atmost)!=list:
+			atmost = range(min(atmost,fold))
 		logging.info('%s-fold cross_validating with seed %s'%(fold,seed))
 		aucs = []
 		for i,indexes in enumerate(cross_validations(seed,fold,train_ID)):
+			if i not in atmost :
+				continue
 			logging.info('%d fold begins'%(i))
 			train_index,test_index = indexes
 			train_x,train_y = train_X[train_index],train_Y[train_index]
@@ -67,7 +71,7 @@ def solution(cross_validation=None,
 
 			test_yy,train_auc = _train_test(train_x,train_y,test_x)
 			test_auc = roc_auc_score(list(test_y),test_yy)
-			aucs.append( (train_auc,test_auc) )
+			aucs.append( (i,train_auc,test_auc) )
 			logging.info('%d fold finished #ins=%s,%s auc=%s,%s'%(i,len(train_y),len(test_y),train_auc,test_auc))
 			
 			atmost = atmost-1
@@ -75,10 +79,10 @@ def solution(cross_validation=None,
 				break
 
 		logging.warn('kf=%s\taucs=%s'%((seed,fold),aucs))
-		acs = [ t0 for t0,t1 in aucs ]
+		acs = [ t0 for i,t0,t1 in aucs ]
 		logging.warn('kf=%s\ttraining\tauc_min=%s\tauc_mean=%s\tauc_max=%s\tauc_std=%s'%(
 					(seed,fold),	min(acs), 		np.mean(acs),max(acs),	np.std(acs) ) )
-		acs = [ t1 for t0,t1 in aucs ]
+		acs = [ t1 for i,t0,t1 in aucs ]
 		logging.warn('kf=%s\ttesting \tauc_min=%s\tauc_mean=%s\tauc_max=%s\tauc_std=%s'%(
 					(seed,fold),	min(acs), 		np.mean(acs),max(acs),	np.std(acs) ) )
 
@@ -162,7 +166,7 @@ solutions = {
 		'test_dates'  : None,
 	},
 	'dense108' : {
-		'cross_validation' : (11717,14,14),
+		'cross_validation' : (11717,14,range(10,14+1)),
 		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':400,'nthread':7,'objective':'rank:pairwise',
 			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.1}), 
 		'feature' : [
