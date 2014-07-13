@@ -161,11 +161,13 @@ solutions = {
 		'train_dates' : ('2010-01-01','2014-01-01'),
 		'test_dates'  : None,
 	},
-	'dense107' : {
+	'dense108' : {
 		'cross_validation' : (11717,14,14),
-		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':400,'nthread':6,'objective':'rank:pairwise',
+		'modelFactory' : ('models.XGB',{'eval_metric':'auc','num_round':400,'nthread':7,'objective':'rank:pairwise',
 			'bst:max_depth':5,'bst:min_child_weight':2000,'bst:subsample':1,'bst:eta':0.1}), 
-		'feature' : [ ('002',),('004d',),('004d_1',),('006d',),('008d',),('020',),('021',),
+		'feature' : [
+				('050pm',fs,'linear_model.LogisticRegression') for fs in combination_features
+			]+[ ('002',),('004d',),('004d_1',),('006d',),('008d',),('020',),('021',),
 			#('040h','essay'),('040h','need_statement'),('040h','short_description'),('040h','title'),
 			('017',[10],[90,180,360]),
 			#('030_1',10),('030_2',10,[10],[90,180,360]),
@@ -179,7 +181,6 @@ solutions = {
 		'train_dates' : ('2010-01-01','2014-01-01'),
 		'featureFactory' : 'make_dense_instance'
 	},
-	'0.64704' : {'train_dates': ('2010-01-01', '2014-01-01'), 'modelFactory': ('models.XGB', {'bst:max_depth': 5, 'num_round': 400, 'bst:subsample': 1, 'eval_metric': 'auc', 'objective': 'rank:pairwise', 'nthread': 7, 'bst:eta': 0.1, 'bst:min_child_weight': 2000}), 'feature': [('002',), ('004d',), ('004d_1',), ('006d',), ('008d',), ('020',), ('021',), ('040h', 'essay'), ('040h', 'need_statement'), ('040h', 'short_description'), ('040h', 'title'), ('017', [10], [90, 180, 360]), ('007dtna_1', [u'is_exciting', u'at_least_1_teacher_referred_donor', u'fully_funded', u'at_least_1_green_donation', u'great_chat', u'three_or_more_non_teacher_referred_donors', u'one_non_teacher_referred_donor_giving_100_plus', u'donation_from_thoughtful_donor', u'great_messages_proportion', u'teacher_referred_count', u'non_teacher_referred_count']), ('050pm', [('002',)], 'naive_bayes.BernoulliNB'), ('050pm', [('002',), ('003',)], 'naive_bayes.BernoulliNB'), ('050pm', [('002',), ('003',), ('004a',)], 'naive_bayes.BernoulliNB'), ('050pm', [('002',), ('003',), ('004a',), ('005', 10)], 'naive_bayes.BernoulliNB'), ('050pm', [('002',), ('003',), ('004a',), ('005', 10), ('006',)], 'naive_bayes.BernoulliNB'), ('050pm', [('002',), ('003',), ('004a',), ('005', 10), ('006',), ('008',)], 'naive_bayes.BernoulliNB'), ('050pm', [('002',)], 'naive_bayes.BernoulliNB'), ('050pm', [('003',)], 'naive_bayes.BernoulliNB'), ('050pm', [('004a',)], 'naive_bayes.BernoulliNB'), ('050pm', [('005', 10)], 'naive_bayes.BernoulliNB'), ('050pm', [('006',)], 'naive_bayes.BernoulliNB'), ('050pm', [('008',)], 'naive_bayes.BernoulliNB'), ('050pm', [('002',)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('003',)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('003',), ('004a',)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('003',), ('004a',), ('005', 10)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('003',), ('004a',), ('005', 10), ('006',)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('003',), ('004a',), ('005', 10), ('006',), ('008',)], 'linear_model.LogisticRegression'), ('050pm', [('002',)], 'linear_model.LogisticRegression'), ('050pm', [('003',)], 'linear_model.LogisticRegression'), ('050pm', [('004a',)], 'linear_model.LogisticRegression'), ('050pm', [('005', 10)], 'linear_model.LogisticRegression'), ('050pm', [('006',)], 'linear_model.LogisticRegression'), ('050pm', [('008',)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('003',)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('004a',)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('005', 10)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('006',)], 'linear_model.LogisticRegression'), ('050pm', [('002',), ('008',)], 'linear_model.LogisticRegression'), ('050pm', [('003',), ('004a',)], 'linear_model.LogisticRegression'), ('050pm', [('003',), ('005', 10)], 'linear_model.LogisticRegression'), ('050pm', [('003',), ('006',)], 'linear_model.LogisticRegression'), ('050pm', [('003',), ('008',)], 'linear_model.LogisticRegression'), ('050pm', [('004a',), ('005', 10)], 'linear_model.LogisticRegression'), ('050pm', [('004a',), ('006',)], 'linear_model.LogisticRegression'), ('050pm', [('004a',), ('008',)], 'linear_model.LogisticRegression'), ('050pm', [('005', 10), ('006',)], 'linear_model.LogisticRegression'), ('050pm', [('005', 10), ('008',)], 'linear_model.LogisticRegression'), ('050pm', [('006',), ('008',)], 'linear_model.LogisticRegression')], 'version': '0.64706', 'cross_validation': (11717, 14, 14), 'featureFactory': 'make_dense_instance'}
 }
 
 def get_object(base,names):
@@ -203,6 +204,11 @@ def run_solution(version='current'):
 	karg['featureFactory'] = instances.__dict__[ karg['featureFactory'] ]
 	
 	solution(**karg)
+
+def output_feature(version='current'):
+	karg = solutions[version]
+	path = '../temp/%s.features.csv'%(version)
+	instances.dense_instance_to_csv(karg['feature'],path)
 
 def main():
 	parser = OptionParser()
