@@ -73,10 +73,6 @@ def solution(cross_validation=None,
 			test_auc = roc_auc_score(list(test_y),test_yy)
 			aucs.append( (i,train_auc,test_auc) )
 			logging.info('%d fold finished #ins=%s,%s auc=%s,%s'%(i,len(train_y),len(test_y),train_auc,test_auc))
-			
-			atmost = atmost-1
-			if atmost<=0 :
-				break
 
 		logging.warn('kf=%s\taucs=%s'%((seed,fold),aucs))
 		acs = [ t0 for i,t0,t1 in aucs ]
